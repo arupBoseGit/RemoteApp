@@ -135,50 +135,18 @@ public class TestBase{
 	 public void cleanUpLogin() throws Exception {
 		// splitTime = System.currentTimeMillis();
 		 String url = "https://"+boxillaManager+"/";
-		System.setProperty("webdriver.gecko.driver", "C:\\Users\\abose\\eclipse-workspace\\geckodriver.exe");
-//		 	System.setProperty("webdriver.chrome.driver", "C:\\Users\\abose\\eclipse-workspace\\WinAppDriverFramework\\chromedriver.exe");
-//		 WebDriverManager.chromedriver().setup();	
-//		 WebDriver chromedriver = new ChromeDriver();
-//		 	DesiredCapabilities caps = new DesiredCapabilities();
-//			caps.setCapability("acceptInsecureCerts", true);
-//			chromedriver.get(url);
+		System.setProperty("webdriver.gecko.driver", "C:\\Users\\blackbox\\eclipse-workspace\\geckodriver.exe");
 			
-			
-			
-//			WebDriverManager.firefoxdriver().setup();
-			
-//			
 			FirefoxOptions ffoptions = new FirefoxOptions();
 			
 			firedrive = new FirefoxDriver(ffoptions);
-//			 FirefoxProfile fp = new FirefoxProfile();
-//			    //set profile to allow java plugings
-//			   fp.setAcceptUntrustedCertificates( true );
-//			   fp.setPreference( "security.enable_java", true );
-//			   fp.setPreference( "plugin.state.java", 2 ); 
-//			   fp.setPreference( "security.enterprise_roots.enabled", true );
 			   DesiredCapabilities handleError = new DesiredCapabilities();
 				handleError.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 				handleError.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 				ffoptions.merge(handleError);
 			firedrive.get(url);
-//			Alert alert=firedrive.switchTo().alert();
-//			alert.accept();
-//			firedrive.switchTo().defaultContent();
 			
 			
-//			public void cleanUpLogin() {	
-//				ProfilesIni profile = new ProfilesIni();
-//				FirefoxProfile myprofile = profile.getProfile("Arup");
-//				WebDriver driver = new FirefoxDriver();
-//				ProfilesIni prof = new ProfilesIni();
-//				FirefoxProfile firedrive= prof.getProfile ("myProfile");
-//				firedrive.setAcceptUntrustedCertificates(true);
-//				firedrive.setAssumeUntrustedCertificateIssuer(false);
-			//	WebDriver driver = new FirefoxDriver ();
-			
-			//chromedriver.get(url);
-		//	firedrive.switchTo().alert().accept();
 			boxillaElements.username(firedrive).sendKeys(boxillaUsername);
 			boxillaElements.password(firedrive).sendKeys(boxillaPassword);
 			boxillaElements.Login(firedrive).click();
