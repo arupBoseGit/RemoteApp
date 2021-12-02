@@ -244,7 +244,7 @@ public void closeApp() {
 	public void loadProperties() {
 		System.out.println("Loading properties");
 		try {
-			InputStream in = new FileInputStream("C:\\Users\\abose\\eclipse-workspace\\WinAppDriverFramework\\test.properties");
+			InputStream in = new FileInputStream("C:\Users\blackbox\eclipse-workspace\WinAppDriverFramework\\test.properties");
 			prop.load(in);
 			in.close();
 			System.out.println("Properties loaded successfully");
@@ -399,7 +399,7 @@ public void closeApp() {
 		@AfterSuite
 		public void closeoff() throws Exception {
 			 String url = "https://"+boxillaManager+"/";
-				System.setProperty("webdriver.gecko.driver", "C:\\Users\\\\abose\\eclipse-workspace\\geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", "C:\\Users\\blackbox\\eclipse-workspace\\geckodriver.exe");
 				DesiredCapabilities caps = new DesiredCapabilities();
 				caps.setCapability("acceptInsecureCerts", true);
 				firedrive = new FirefoxDriver(caps);
