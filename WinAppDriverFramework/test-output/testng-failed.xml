@@ -6,22 +6,9 @@
       <class name="tests.Firstphase">
         <methods>
           <include name="logout"/>
-          <include name="Test19_SR0005"/>
           <include name="closeoff"/>
-          <include name="Test16_DC0001"/>
-          <include name="Test26_VI0005"/>
-          <include name="Test21_AI0048"/>
-          <include name="Test20_AI0038"/>
-          <include name="Test27_DC0002"/>
-          <include name="Test14_AI0043"/>
-          <include name="Test15_CL0006a"/>
-          <include name="Test17_DC0001"/>
-          <include name="Test28_SR0046"/>
-          <include name="Test18_DC0001"/>
-          <include name="Test13_AI0022"/>
-          <include name="Test22_SR0013"/>
+          <include name="Test15_AI0043"/>
           <include name="login"/>
-          <include name="Test29_SR0036"/>
         </methods>
       </class> <!-- tests.Firstphase -->
     </classes>
