@@ -7,6 +7,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -109,11 +110,11 @@ public class TestBase{
 			 System.out.println("Attempting to manage devices");
 			 System.out.println("BoxillaManager is "+boxillaManager);
 			 cleanUpLogin();
-				enableNorthboundAPI(firedrive);
-				Managedevices();
-				ConnectionPage.createprivateconnections(firedrive,devices);
-			SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices);
-			userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
+//				enableNorthboundAPI(firedrive);
+//				Managedevices();
+//				ConnectionPage.createprivateconnections(firedrive,devices);
+//			SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices);
+//			userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
 			//	userpage.ManageConnection(firedrive,devices,RAusername);
 			//	UserPage.Sharedconnectionassign(firedrive, RAusername, SharedNames);
 		      
@@ -245,7 +246,9 @@ public class TestBase{
 
 public void closeRemoteApp() {
 //	Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
-	
+//	if((Windriver.findElementById("kryptonPanel").isDisplayed())){
+//		getElement("closeLogInScreen").click();
+//	}
 	if((getElement("closeLogInScreen").isDisplayed())){
 		getElement("closeLogInScreen").click();
 	}
@@ -256,7 +259,7 @@ public void closeRemoteApp() {
 		Windriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 	System.out.println("RemoteApp Closed");
-	//Windriver.close();
+	Windriver.quit();
 }
 
 public void closeApp() {
@@ -264,14 +267,21 @@ public void closeApp() {
 	getElement("menuLabel").click();
 	Windriver.findElementByName("Close").click();
 	System.out.println("RemoteApp Closed");
+	Windriver.quit();
 }
 //	public WindowsDriver getSession() {
 //	  return AppSession;
 //	}
 	public WebElement getElement(String name) {
+		   
 		   return Windriver.findElementByAccessibilityId(name);
 		}
 
+	
+	public List getElementId(String name) {
+		System.out.println(Windriver.findElementByAccessibilityId(name));
+		return Windriver.findElementsByAccessibilityId(name);
+		}
 	/**
 	 * Will load the property file into memory for use in test cases
 	 */
@@ -284,6 +294,7 @@ public void closeApp() {
 			System.out.println("Properties loaded successfully");
 		} catch (IOException e) {
 			System.out.println("Properties file failed to load");
+			
 		}
 	}
 

@@ -120,6 +120,14 @@ public class ConnectionPage {
 		return element;
 	}
 	
+	public static int TableContent(WebDriver driver) {
+		String countelement = driver.findElement(By.xpath("(.//div[@id=\"conntable_info\"]/b)[1]"));
+		
+		System.out.println(Integer.parseInt(countelement));
+		return Integer.parseInt(countelement);
+	}
+	
+	
 	
 
 		
@@ -183,13 +191,14 @@ public class ConnectionPage {
 			searchOption(driver).clear();
 			searchOption(driver).sendKeys(deviceList.getIpAddress());
 			driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-			if(Optionicon(driver)!=null) {
+			if(TableContent(driver)!=0) {
 			Optionicon(driver).click();
 			Deleteoption(driver).click();
 			driver.switchTo().alert().accept();
 			System.out.println(deviceList.getIpAddress()+" is deleted");
 			Thread.sleep(2000);
 			}
+			else
 			System.out.println(" connection named - "+deviceList.getIpAddress()+" is not in the list");
 	}
 	

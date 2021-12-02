@@ -36,7 +36,7 @@ import pages.boxillaElements;
 public class Firstphase extends TestBase{
 	UserPage userpage = new UserPage();
 	
-	@Test
+	//@Test
 	public void Test01_SR0018() throws Exception {
 		printTestDetails("STARTING ", "Test01_SR0018", "");
 		cleanUpLogin();
@@ -186,7 +186,10 @@ public class Firstphase extends TestBase{
 		System.out.println("Login button clicked");
 		Thread.sleep(10000);
 		cleanUpLogin();
-		UserPage.currentUser(firedrive,RAusername,7);
+		String username=UserPage.currentUser(firedrive,RAusername,7);
+		Assert.assertTrue(username.contains(RAusername),
+				"current User table did not contain: " + RAusername + ", actual text: " + username);
+
 		cleanUpLogout();
 		Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
 		closeApp();
@@ -194,7 +197,7 @@ public class Firstphase extends TestBase{
 	}
 	
 	//@Test
-	public void Test05_SR0021() {
+	public void Test05_SR0021() throws Exception {
 		printTestDetails("STARTING ", "Test05_SR0021", "");
 		setup();
 		WebElement loginButton = getElement("logInButton");
@@ -204,24 +207,33 @@ public class Firstphase extends TestBase{
 		System.out.println("Password entered");
 		loginButton.click();
 		Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
-//		WebElement windowsPopupFileNameTextbox = Windriver.findElementByXPath("//Edit[@Name='File name:']");
-//        windowsPopupFileNameTextbox.sendKeys("D:\\Data.txt");
+
      	   
         WebElement windowsPopupOpenButton = Windriver.findElementByName("Log In: Invalid Login Credentials");
         String text= windowsPopupOpenButton.getText();
      // capture alert message
         System.out.println("Alert Message is  "+text);
         Assert.assertEquals("Log In: Invalid Login Credentials", text);
-        Windriver.findElementByName("OK").click();
-  //      windowsPopupOpenButton.click();
-
+   
+        Thread.sleep(5000);
         Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
-        getElement("closeLogInScreen").click();
-        System.out.println("RemoteApp closed");
+   
+       
+        Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
+		Windriver.findElementByName("Demo Mode").click();
+		Windriver.findElementByName("Submit").click();
+		Windriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		System.out.println(Windriver.getWindowHandle());
+		Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
+	    getElement("menuLabel").click();
+	    System.out.println("Menu Label clicked");
+	    Windriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	    Windriver.findElementByName("Close").click();
+	    System.out.println("RemoteApp closed");
 		
 	}
 	
-	@Test
+	//@Test
 	public void Test06_CL0005a() throws Exception {
 		
 		List<String> SharedNames = new ArrayList<String>();
@@ -282,7 +294,7 @@ public class Firstphase extends TestBase{
 		
 		}
 		
-	@Test
+	//@Test
 	public void Test07_AI0004() throws Exception {
 		printTestDetails("STARTING ", "Test07_AI0004", "");
 		setup();
@@ -311,7 +323,7 @@ public class Firstphase extends TestBase{
 		
 	}
 		
-	@Test
+	//@Test
 	public void Test08_AI0046() throws Exception {
 		printTestDetails("STARTING ", "Test08_AI0046", "");
 		RAlogin(RAusername,RApassword);
@@ -327,7 +339,7 @@ public class Firstphase extends TestBase{
 		closeApp();
 		
 	}
-	@Test
+	//@Test
 	public void Test09_AI0047() throws Exception {
 		printTestDetails("STARTING ", "Test09_AI0047", "");
 		RAlogin(RAusername,RApassword);
@@ -340,7 +352,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	//@Test
 	public  void Test10_VI0006() throws Exception{
 		printTestDetails("STARTING ", "Test10_VI0006", "");
 		RAlogin(RAusername,RApassword);
@@ -355,7 +367,7 @@ public class Firstphase extends TestBase{
 		
 	}
 		
-	@Test
+	//@Test
 	public void  Test11_AI0007() throws Exception {
 		printTestDetails("STARTING ", "Test11_AI0007", "");
 		cleanUpLogin();
@@ -390,7 +402,7 @@ public class Firstphase extends TestBase{
 	}
 	
 	//Test to ensure all the user(administrator, power and General) have same privileges
-	@Test
+	//@Test
 	public void Test12_AI0005() throws Exception {
 		printTestDetails("STARTING ", "Test12_AI0005", "");
 		cleanUpLogin();
@@ -430,7 +442,7 @@ public class Firstphase extends TestBase{
 			
 	}
 		
-	@Test
+	//@Test
 	public void Test13_AI0022() throws Exception {
 		printTestDetails("STARTING ", "Test13_AI0022", "");
 		cleanUpLogin();
@@ -456,7 +468,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	//@Test
 	public void Test14_AI0032() throws Exception {
 		printTestDetails("STARTING ", "Test14_AI0032", "");
 		RAlogin(RAusername,RApassword);
@@ -505,10 +517,17 @@ public class Firstphase extends TestBase{
 	}
 	
 	@Test
-	public void Test14_AI0043() throws Exception {
-		printTestDetails("STARTING ", "Test14_AI0043", "");
+	public void Test15_AI0043() throws Exception {
+		printTestDetails("STARTING ", "Test15_AI0043", "");
 		RAlogin(RAusername,RApassword);
 		WebElement availableConnectionsList = getElement("availableConnectionsWinListBox");
+		List<WebElement> availableConnections = availableConnectionsList.findElements(By.xpath("//ListItem"));
+		int conNum=1;
+		for (WebElement connection : availableConnections) {
+		  System.out.println("connections number  "+conNum+" is "+connection.getText());
+		  connectionList.add(connection.getText());
+		  conNum++;
+		}
 		for (String connectionName : connectionList) {
 			WebElement targetConnection = availableConnectionsList.findElement(By.name(connectionName));
 			
@@ -517,11 +536,11 @@ public class Firstphase extends TestBase{
 		      System.out.println("Cursor could move to connection "+connectionName);
 		    //  Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
 			}
-		
+		closeApp();
 		
 	}
 	
-	@Test 
+	//@Test 
 	public void Test15_CL0006a() throws Exception{
 		List<String> SharedNames = new ArrayList<String>();
 		SharedNames.add("10.211.130.114test1");
@@ -569,10 +588,11 @@ public class Firstphase extends TestBase{
 			System.out.println("message size is "+count);
 			Assert.assertEquals(count, countconnection);
 			System.out.println("Four Connections were supported");
-		
+			Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
+			closeApp();
 		
 	}
-	@Test
+	//@Test
 	public void Test16_DC0001() throws Exception {
 		printTestDetails("STARTING ", "Test16_DC0001", "");
 		ArrayList<Device> SEDevices = new ArrayList<Device>();
@@ -639,7 +659,7 @@ public class Firstphase extends TestBase{
 			}
 	
 	
-	@Test
+	//@Test
 	public void Test17_DC0001() throws Exception {
 		printTestDetails("STARTING ", "Test17_DC0001", "");
 		ArrayList<Device> PEDevices = new ArrayList<Device>();
@@ -706,7 +726,7 @@ public class Firstphase extends TestBase{
 			}
 	
 	
-	@Test
+	//@Test
 	public void Test18_DC0001() throws Exception {
 		printTestDetails("STARTING ", "Test18_DC0001", "");
 		ArrayList<Device> ZeroUDevices = new ArrayList<Device>();
@@ -772,7 +792,7 @@ public class Firstphase extends TestBase{
 			softAssertion.assertAll();
 			}
 	
-	@Test
+	//@Test
 	public void Test19_SR0005() throws Exception {
 		printTestDetails("STARTING ", "Test19_SR0005", "");
 		ArrayList<Device> ZeroUDevices = new ArrayList<Device>();
@@ -902,7 +922,7 @@ public class Firstphase extends TestBase{
 	}
 	
 	
-	@Test
+	//@Test
 	public void Test20_AI0038() throws Exception {
 		printTestDetails("STARTING ", "Test20_AI0038", "");
 		ArrayList<String> connectionZeroUList = new ArrayList<String>();
@@ -947,7 +967,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	//@Test
 	public void Test21_AI0048() throws Exception {
 		printTestDetails("STARTING ", "Test21_AI0048", "");
 		ArrayList<Device> PEDevices = new ArrayList<Device>();
@@ -1010,7 +1030,7 @@ public class Firstphase extends TestBase{
 		
 	
 }
-	@Test
+	//@Test
 	public void Test22_SR0013() throws Exception {
 		printTestDetails("STARTING ", "Test22_SR0013", "");
 		WebDriverWait wait=new WebDriverWait(firedrive, 20);
@@ -1088,7 +1108,7 @@ public class Firstphase extends TestBase{
 		    closeApp();
 	}
 	
-	@Test
+	//@Test
 	public void Test23_AI0025a() throws Exception {
 		printTestDetails("STARTING ", "Test23_AI0025a", "");
 		//open boxilla 
@@ -1122,7 +1142,7 @@ public class Firstphase extends TestBase{
 		UserPage.endTest("Test23_AI0025a");
 	}
 	
-	@Test
+	//@Test
 	public void Test24_AI0025a() throws Exception {
 		printTestDetails("STARTING ", "Test24_AI0025a", "");
 		
@@ -1163,7 +1183,7 @@ public class Firstphase extends TestBase{
 //	about:config
 //	security.enterprise_roots.enabled
 	
-		@Test
+		//@Test
 		public void Test25_AI0033() throws Exception {
 			printTestDetails("STARTING ", "Test25_AI0033", "");
 			
@@ -1185,7 +1205,7 @@ public class Firstphase extends TestBase{
 			
 		}
 		
-		@Test
+		//@Test
 		public void Test26_VI0005() {
 			printTestDetails("STARTING ", "Test26_VI0005", "");
 			
@@ -1207,7 +1227,7 @@ public class Firstphase extends TestBase{
 			
 			
 		}
-		@Test
+		//@Test
 		public void Test27_DC0002() throws Exception {
 			printTestDetails("STARTING ", "Test27_DC0002", "");
 			ArrayList<String> DualHeadList = new ArrayList<String>();
@@ -1317,7 +1337,7 @@ public class Firstphase extends TestBase{
 			}
 		
 		
-		@Test
+		//@Test
 		public void Test28_SR0046() throws Exception {
 			printTestDetails("STARTING ", "Test28_SR0046", "");
 			ArrayList<String> viewList = new ArrayList<String>();
@@ -1432,7 +1452,7 @@ public class Firstphase extends TestBase{
 			}
 		
 		
-		@Test
+		//@Test
 		public void Test29_SR0036() throws Exception {
 			printTestDetails("STARTING ", "Test29_SR0036", "");
 			ArrayList<String> viewList = new ArrayList<String>();

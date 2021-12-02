@@ -267,33 +267,34 @@ public class UserPage {
 		System.out.println(user+" is deleted");
 	}
 	
-	public static void currentUser(WebDriver drive, String username, int retry) throws Exception {
+	public static String  currentUser(WebDriver drive, String username, int retry) throws Exception {
 		System.out.println("Validating the active user in boxilla");
+		Thread.sleep(5000);
 		user(drive).click();
 		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Active(drive).click();
 		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		Thread.sleep(5000);
+		
 		String tableText = SeleniumActions.seleniumGetText(drive, ActiveUser(drive));
 		System.out.println("table text:" + tableText);
-		do{
+		do {
 			if(!tableText.equals("")) {
 				if(tableText.contains(username)) {
 					System.out.println("Found Active User:" + tableText);
 					retry=0;
 					
 							}
-				else {
-					System.out.println("Active User found is "+tableText);}
-			}
-			else System.out.println("Expected User not found. Retrying.....");
-			drive.navigate().refresh();
-			retry--;
-			}
+				else 
+					System.out.println("Expected User not found. Retrying.....");
+					drive.navigate().refresh();
+					retry--;
+			}}
 		
 		while(retry==0);
-	}	
-				
+		
+			
+		return tableText;
+	}
 				
 	
 	
