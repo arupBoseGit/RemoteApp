@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: TestSuite
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 3, Time elapsed: 2.599 s <<< FAILURE! - in TestSuite
+tests.Firstphase.login  Time elapsed: 2.291 s  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.quit()" because "this.firedrive" is null
+
+tests.Firstphase.logout  Time elapsed: 0.005 s  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.quit()" because "this.firedrive" is null
+
+tests.Firstphase.logout  Time elapsed: 0.002 s  <<< FAILURE!
+java.lang.NullPointerException: Cannot invoke "org.openqa.selenium.WebDriver.quit()" because "this.firedrive" is null
+
