@@ -110,11 +110,11 @@ public class TestBase{
 			 System.out.println("Attempting to manage devices");
 			 System.out.println("BoxillaManager is "+boxillaManager);
 			 cleanUpLogin();
-//				enableNorthboundAPI(firedrive);
-//				Managedevices();
-//				ConnectionPage.createprivateconnections(firedrive,devices);
-//			SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices);
-//			userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
+				enableNorthboundAPI(firedrive);
+				Managedevices();
+				ConnectionPage.createprivateconnections(firedrive,devices);
+				SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices);
+				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
 			//	userpage.ManageConnection(firedrive,devices,RAusername);
 			//	UserPage.Sharedconnectionassign(firedrive, RAusername, SharedNames);
 		      
@@ -139,7 +139,7 @@ public class TestBase{
 		// splitTime = System.currentTimeMillis();
 		 String url = "https://"+boxillaManager+"/";
 		System.setProperty("webdriver.gecko.driver", "C:\\Users\\blackbox\\eclipse-workspace\\geckodriver.exe");
-//		 	System.setProperty("webdriver.chrome.driver", "C:\\Users\\abose\\eclipse-workspace\\WinAppDriverFramework\\chromedriver.exe");
+	//	 	System.setProperty("webdriver.chrome.driver", "C:\\Users\\\\eclipse-workspace\\WinAppDriverFramework\\chromedriver.exe");
 //		 WebDriverManager.chromedriver().setup();	
 //		 WebDriver chromedriver = new ChromeDriver();
 //		 	DesiredCapabilities caps = new DesiredCapabilities();
@@ -165,23 +165,8 @@ public class TestBase{
 				handleError.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 				ffoptions.merge(handleError);
 			firedrive.get(url);
-//			Alert alert=firedrive.switchTo().alert();
-//			alert.accept();
-//			firedrive.switchTo().defaultContent();
 			
 			
-//			public void cleanUpLogin() {	
-//				ProfilesIni profile = new ProfilesIni();
-//				FirefoxProfile myprofile = profile.getProfile("Arup");
-//				WebDriver driver = new FirefoxDriver();
-//				ProfilesIni prof = new ProfilesIni();
-//				FirefoxProfile firedrive= prof.getProfile ("myProfile");
-//				firedrive.setAcceptUntrustedCertificates(true);
-//				firedrive.setAssumeUntrustedCertificateIssuer(false);
-			//	WebDriver driver = new FirefoxDriver ();
-			
-			//chromedriver.get(url);
-		//	firedrive.switchTo().alert().accept();
 			boxillaElements.username(firedrive).sendKeys(boxillaUsername);
 			boxillaElements.password(firedrive).sendKeys(boxillaPassword);
 			boxillaElements.Login(firedrive).click();
@@ -288,7 +273,7 @@ public void closeApp() {
 	public void loadProperties() {
 		System.out.println("Loading properties");
 		try {
-			InputStream in = new FileInputStream("C:\\Users\\blackbox\\Downloads\\RemoteApp\\WinAppDriverFramework\\test.properties");
+			InputStream in = new FileInputStream("C:\\Users\\blackbox\\git\\RemoteApp\\WinAppDriverFramework\\test.properties");
 			prop.load(in);
 			in.close();
 			System.out.println("Properties loaded successfully");

@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
-import jdk.internal.org.jline.utils.Log;
+
 import methods.AppliancePool;
 import methods.Device;
 import methods.Devices;

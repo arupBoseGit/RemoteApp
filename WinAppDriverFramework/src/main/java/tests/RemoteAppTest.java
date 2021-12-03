@@ -27,7 +27,7 @@
 	import io.restassured.http.ContentType;
 	import io.restassured.path.json.JsonPath;
 	import io.restassured.response.Response;
-	import jdk.internal.org.jline.utils.Log;
+	
 	import methods.Device;
 	import methods.Devices;
 	import methods.SeleniumActions;
