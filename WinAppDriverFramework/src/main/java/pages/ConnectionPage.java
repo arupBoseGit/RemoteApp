@@ -191,25 +191,26 @@ public class ConnectionPage {
 			searchOption(driver).clear();
 			searchOption(driver).sendKeys(deviceList.getIpAddress());
 			driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-			if(TableContent(driver)!=0) {
+			//if(TableContent(driver)!=0) {
 			Optionicon(driver).click();
 			Deleteoption(driver).click();
 			driver.switchTo().alert().accept();
 			System.out.println(deviceList.getIpAddress()+" is deleted");
 			Thread.sleep(2000);
-			}
-			else
-			System.out.println(" connection named - "+deviceList.getIpAddress()+" is not in the list");
+		//	}
+		//	else
+		//	System.out.println(" connection named - "+deviceList.getIpAddress()+" is not in the list");
 	}
 	
 }
-	public static ArrayList Sharedconnection(WebDriver driver, ArrayList<Device> devicename) throws Exception  {
+	public static ArrayList Sharedconnection(WebDriver driver, ArrayList<Device> devicename, int number) throws Exception  {
+		
 		WebDriverWait wait=new WebDriverWait(driver, 20);
 		System.out.println("All connections are ");
 		ArrayList<String> Sharedconnection = new 	ArrayList<String>();	
 					for(Device deviceList : devicename) {
 						System.out.println("Adding the connection "+deviceList.getIpAddress());
-						for(int i =1;i<=5;i++) {
+						for(int i=1;i<=number;i++) {
 						connections(driver).click();
 						driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
 						manage(driver).click();

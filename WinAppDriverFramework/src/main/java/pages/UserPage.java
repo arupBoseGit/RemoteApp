@@ -243,6 +243,8 @@ public class UserPage {
 		optionbutton(drive).click();
 		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		ManageConnections(drive).click();
+		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		Movebackward(drive).click();
 		for(String connectedName : names) {
 			drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 			connectionfilter(drive).sendKeys(connectedName);
@@ -257,46 +259,76 @@ public class UserPage {
 	
 	public static void DeleteUser(WebDriver drive, String user) {
 		System.out.println("Navigated to User Tab to Delete username "+user);
-		user(drive).click();
-		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		manage(drive).click();
-		searchOption(drive).sendKeys(user);
-		optionbutton(drive).click();
-		DeleteOption(drive).click();
-		drive.switchTo().alert().accept();
-		System.out.println(user+" is deleted");
+		try {
+			Thread.sleep(3000);
+			user(drive).click();
+			drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			manage(drive).click();
+			searchOption(drive).sendKeys(user);
+			optionbutton(drive).click();
+			DeleteOption(drive).click();
+			drive.switchTo().alert().accept();
+			System.out.println(user+" is deleted");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			user(drive).click();
+			drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+			manage(drive).click();
+			searchOption(drive).sendKeys(user);
+			optionbutton(drive).click();
+			DeleteOption(drive).click();
+			drive.switchTo().alert().accept();
+			System.out.println(user+" is deleted");
+		}
+		
 	}
 	
 	public static String  currentUser(WebDriver drive, String username, int retry) throws Exception {
+		String tableText;
 		System.out.println("Validating the active user in boxilla");
-		Thread.sleep(5000);
+		Thread.sleep(2000);
 		user(drive).click();
 		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		Active(drive).click();
-		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);	
 		
-		String tableText = SeleniumActions.seleniumGetText(drive, ActiveUser(drive));
-		System.out.println("table text:" + tableText);
 		do {
-			if(!tableText.equals("")) {
-				if(tableText.contains(username)) {
-					System.out.println("Found Active User:" + tableText);
-					retry=0;
-					
-							}
-				else 
-					System.out.println("Expected User not found. Retrying.....");
-					drive.navigate().refresh();
-					retry--;
-			}}
-		
-		while(retry==0);
-		
+			System.out.println(" Attempt Number "+retry);
+			tableText = SeleniumActions.seleniumGetText(drive, ActiveUser(drive));
+			System.out.println("table text:" + tableText);
+			if(tableText.contains(username)) {
+				System.out.println("Found Active User:" + tableText);
+				retry=0;
+				
+						}
+			else {
+				System.out.println("Expected User not found. Retrying.....");
+				drive.navigate().refresh();
+				Thread.sleep(3000);
+				retry--;
+			}
+		}while(retry>0);
 			
 		return tableText;
 	}
 				
-	
+	public static void Remoteaccess(WebDriver drive) {
+		
+		user(drive).click();
+		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		manage(drive).click();
+		searchOption(drive).sendKeys("admin");
+		optionbutton(drive).click();
+		EditUser(drive).click();
+		NextButton(drive).click();
+		RemoteAccess(drive).click();
+		NextButton(drive).click();
+		savebutton(drive).click();
+		drive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		drive.navigate().refresh();
+		
+	}
 	
 
 	

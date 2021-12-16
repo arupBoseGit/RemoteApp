@@ -33,6 +33,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
 import io.appium.java_client.windows.WindowsDriver;
@@ -66,6 +67,7 @@ public class TestBase{
 	 public String dualTxName;
 	
 	 String boxillaManager;
+	 String boxillaManager2;
 	 public static String RAusername;
 	 public static String RApassword;
 	 public String AutomationUsername;
@@ -86,14 +88,15 @@ public class TestBase{
 	 ArrayList<Device> Onedevices;
 	 ArrayList<String> SharedNames;
 		 UserPage userpage = new UserPage();
+		 SoftAssert softAssert = new SoftAssert();
 	
 	
 	
 	 @BeforeSuite
 	 public void login() throws InterruptedException {
 		 loadProperties();
-		 devices = devicePool.getAllDevices("device.properties");
-		 Onedevices = devicePool.getAllDevices("Onedevice.properties");
+		 devices = devicePool.getAllDevices("Onedevice.properties");
+		
 		 boxillaUsername = prop.getProperty("boxillaUsername");
 		 boxillaPassword = prop.getProperty("boxillaPassword");
 		 RAusername = prop.getProperty("RAusername");
@@ -103,20 +106,21 @@ public class TestBase{
 		 deviceUserName = prop.getProperty("deviceUserName");
 		 devicePassword = prop.getProperty("devicePassword");
 		 boxillaManager=prop.getProperty("boxillaManager");
+		 boxillaManager2=prop.getProperty("boxillaManager2");
 		 System.out.println("loaded username is "+boxillaUsername);
 		 System.out.println("loaded password is "+boxillaPassword);
 		 
 		 try {
 			 System.out.println("Attempting to manage devices");
 			 System.out.println("BoxillaManager is "+boxillaManager);
-			 cleanUpLogin();
-				enableNorthboundAPI(firedrive);
-				Managedevices();
-				ConnectionPage.createprivateconnections(firedrive,devices);
-				SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices);
-				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
+		 cleanUpLogin();
+//				enableNorthboundAPI(firedrive);
+//				Managedevices();
+//				ConnectionPage.createprivateconnections(firedrive,devices);
+//				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
 			//	userpage.ManageConnection(firedrive,devices,RAusername);
-			//	UserPage.Sharedconnectionassign(firedrive, RAusername, SharedNames);
+				
+				
 		      
 		    
 				
@@ -136,7 +140,7 @@ public class TestBase{
 	 }
 	
 	 public void cleanUpLogin() throws Exception {
-		// splitTime = System.currentTimeMillis();
+	
 		 String url = "https://"+boxillaManager+"/";
 		System.setProperty("webdriver.gecko.driver", "C:\\Users\\blackbox\\eclipse-workspace\\geckodriver.exe");
 	//	 	System.setProperty("webdriver.chrome.driver", "C:\\Users\\\\eclipse-workspace\\WinAppDriverFramework\\chromedriver.exe");
@@ -154,12 +158,31 @@ public class TestBase{
 			FirefoxOptions ffoptions = new FirefoxOptions();
 			
 			firedrive = new FirefoxDriver(ffoptions);
-//			 FirefoxProfile fp = new FirefoxProfile();
-//			    //set profile to allow java plugings
-//			   fp.setAcceptUntrustedCertificates( true );
-//			   fp.setPreference( "security.enable_java", true );
-//			   fp.setPreference( "plugin.state.java", 2 ); 
-//			   fp.setPreference( "security.enterprise_roots.enabled", true );
+
+			   DesiredCapabilities handleError = new DesiredCapabilities();
+				handleError.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+				handleError.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+				ffoptions.merge(handleError);
+			firedrive.get(url);
+			
+			
+			boxillaElements.username(firedrive).sendKeys(boxillaUsername);
+			boxillaElements.password(firedrive).sendKeys(boxillaPassword);
+			boxillaElements.Login(firedrive).click();
+			System.out.println("Logged In to boxilla");
+			
+	 }
+	 
+	 public void DoubleLogin() throws Exception {
+			
+		 String url = "https://"+boxillaManager2+"/";
+		System.setProperty("webdriver.gecko.driver", "C:\\Users\\blackbox\\eclipse-workspace\\geckodriver.exe");
+		
+		
+			FirefoxOptions ffoptions = new FirefoxOptions();
+			
+			firedrive = new FirefoxDriver(ffoptions);
+
 			   DesiredCapabilities handleError = new DesiredCapabilities();
 				handleError.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 				handleError.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
@@ -188,7 +211,7 @@ public class TestBase{
 	 public void setup() {
 		
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", "C:\\Program Files (x86)\\BlackBox\\EmeraldRA\\EmeraldRA.exe");
+        capabilities.setCapability("app", "C:\\Program Files\\Git\\EmeraldRA\\EmeraldRA.exe");
         capabilities.setCapability("platformName", "Windows");
         capabilities.setCapability("deviceName", "WindowsPC");
       try {
@@ -197,6 +220,7 @@ public class TestBase{
        
       }
       catch(Exception e){
+    	  System.out.println("Exception has occured ");
         e.printStackTrace();
       } 
       Windriver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
@@ -218,6 +242,7 @@ public class TestBase{
 	
 	public void RAlogin(String username, String Password) throws Exception {
 		setup();
+		this.Windriver.switchTo().window((String) this.Windriver.getWindowHandles().toArray()[0]);
 		WebElement loginButton = getElement("logInButton");
 		getElement("userNameTextBox").sendKeys(username);
 		System.out.println("Username Entered");
@@ -387,17 +412,17 @@ public void closeApp() {
 	public void cleanUpLogout() {
 		try {
 			Thread.sleep(1000);
-			firedrive.get(url);
-			Thread.sleep(2000);
+//			firedrive.get(url);
+//			Thread.sleep(2000);
 			LandingPage.logoutDropdown(firedrive).click();
 			Thread.sleep(2000);
 			LandingPage.logoutbtn(firedrive).click();
 			Thread.sleep(2000);
-			firedrive.quit();
+			firedrive.close();;
 		} catch (Exception e) {
 			// TODO: handle exception
 			firedrive.quit();
-		}
+			}
 }
 	
 	
@@ -437,11 +462,13 @@ public void closeApp() {
 				boxillaElements.username(firedrive).sendKeys(boxillaUsername);
 				boxillaElements.password(firedrive).sendKeys(boxillaPassword);
 				boxillaElements.Login(firedrive).click();
-				ConnectionPage.DeleteConnection(firedrive,devices);
-				UserPage.DeleteUser(firedrive,RAusername);
+				devices = devicePool.getAllDevices("device.properties");
+//				System.out.println("Devices are "+devicePool.allDevices());
+//				ConnectionPage.DeleteConnection(firedrive,devices);
+//				UserPage.DeleteUser(firedrive,RAusername);
 				unManageDevice(firedrive,devices);
 				cleanUpLogout();
-				firedrive.close();
+				//firedrive.close();
 		}
 		
 		

@@ -1,7 +1,7 @@
-# Created at 2021-12-03T12:51:29.176
+# Created at 2021-12-08T18:03:29.142
 Exiting self fork JVM. Received SHUTDOWN command from Maven shutdown hook.
-Thread dump before exiting the process (5740@ST-RA-WIN10-VM):
-"Forwarding findElement on session d56a6f32-da6a-4abe-80ce-fed50207f722 to remote" 
+Thread dump before exiting the process (14880@ST-RA-WIN10-VM):
+"Forwarding findElement on session ecaf6b77-9854-4289-8b77-bd459ff6c88d to remote" 
    java.lang.Thread.State: RUNNABLE
         at java.base@17.0.1/sun.nio.ch.Net.poll(Native Method)
         at java.base@17.0.1/sun.nio.ch.NioSocketImpl.park(NioSocketImpl.java:181)
@@ -20,7 +20,7 @@ Thread dump before exiting the process (5740@ST-RA-WIN10-VM):
         at app//okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:147)
         at app//okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:121)
         at app//org.openqa.selenium.remote.internal.OkHttpClient$Factory$1.lambda$createClient$1(OkHttpClient.java:152)
-        at app//org.openqa.selenium.remote.internal.OkHttpClient$Factory$1$$Lambda$160/0x0000000800d0db78.intercept(Unknown Source)
+        at app//org.openqa.selenium.remote.internal.OkHttpClient$Factory$1$$Lambda$160/0x0000000800d0e890.intercept(Unknown Source)
         at app//okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:147)
         at app//okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.java:45)
         at app//okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:147)
@@ -44,8 +44,8 @@ Thread dump before exiting the process (5740@ST-RA-WIN10-VM):
         at app//org.openqa.selenium.By$ByXPath.findElement(By.java:353)
         at app//org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
         at app//methods.SeleniumActions.seleniumIsDisplayed(SeleniumActions.java:134)
-        at app//tests.TestBase.enableNorthboundAPI(TestBase.java:410)
-        at app//tests.TestBase.login(TestBase.java:113)
+        at app//tests.TestBase.enableNorthboundAPI(TestBase.java:433)
+        at app//tests.TestBase.login(TestBase.java:117)
         at java.base@17.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
         at java.base@17.0.1/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
         at java.base@17.0.1/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -108,9 +108,32 @@ Thread dump before exiting the process (5740@ST-RA-WIN10-VM):
         at app//org.apache.maven.surefire.booter.ForkedBooter.access$400(ForkedBooter.java:68)
         at app//org.apache.maven.surefire.booter.ForkedBooter$4.update(ForkedBooter.java:295)
         at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.callListeners(CommandReader.java:467)
-        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.exitByConfiguration(CommandReader.java:479)
-        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.run(CommandReader.java:432)
+        at app//org.apache.maven.surefire.booter.CommandReader$CommandRunnable.run(CommandReader.java:413)
         at java.base@17.0.1/java.lang.Thread.run(Thread.java:833)
+
+"ForkJoinPool.commonPool-worker-1" 
+   java.lang.Thread.State: WAITING
+        at java.base@17.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@17.0.1/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1724)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1623)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
+
+"ForkJoinPool.commonPool-worker-2" 
+   java.lang.Thread.State: TIMED_WAITING
+        at java.base@17.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@17.0.1/java.util.concurrent.locks.LockSupport.parkUntil(LockSupport.java:410)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1726)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1623)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
+
+"ForkJoinPool.commonPool-worker-3" 
+   java.lang.Thread.State: WAITING
+        at java.base@17.0.1/jdk.internal.misc.Unsafe.park(Native Method)
+        at java.base@17.0.1/java.util.concurrent.locks.LockSupport.park(LockSupport.java:341)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1724)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1623)
+        at java.base@17.0.1/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
 
 "Exec Default Executor" 
    java.lang.Thread.State: RUNNABLE
@@ -138,14 +161,6 @@ Thread dump before exiting the process (5740@ST-RA-WIN10-VM):
         at java.base@17.0.1/java.io.FileInputStream.read(FileInputStream.java:254)
         at app//org.apache.commons.exec.StreamPumper.run(StreamPumper.java:107)
         at java.base@17.0.1/java.lang.Thread.run(Thread.java:833)
-
-"ForkJoinPool.commonPool-worker-1" 
-   java.lang.Thread.State: TIMED_WAITING
-        at java.base@17.0.1/jdk.internal.misc.Unsafe.park(Native Method)
-        at java.base@17.0.1/java.util.concurrent.locks.LockSupport.parkUntil(LockSupport.java:410)
-        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.awaitWork(ForkJoinPool.java:1726)
-        at java.base@17.0.1/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1623)
-        at java.base@17.0.1/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:165)
 
 "OkHttp ConnectionPool" 
    java.lang.Thread.State: TIMED_WAITING

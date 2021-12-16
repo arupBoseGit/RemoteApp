@@ -28,6 +28,12 @@ public class AppliancePool {
 	private ArrayList<Device> rxDualPool = new ArrayList<Device>();
 	private ArrayList<Device> rxEmeraldPool = new ArrayList<Device>();
 	private ArrayList<Device> txEmeraldPool = new ArrayList<Device>();
+	private ArrayList<Device> PEdevices = new ArrayList<Device>();
+	private ArrayList<Device> SEdevices = new ArrayList<Device>();
+	private ArrayList<Device> ZeroUdevices = new ArrayList<Device>();
+	private ArrayList<Device> DualHeadDevices = new ArrayList<Device>();
+	private ArrayList<Device> Onedevice = new ArrayList<Device>();
+	
 	public Properties deviceProperties = new Properties();
 
 
@@ -35,6 +41,21 @@ public class AppliancePool {
 		return txEmeraldPool;
 	}
 	
+	public ArrayList<Device> PEdevices() {
+		return PEdevices;
+	}
+	public ArrayList<Device> SEdevices() {
+		return SEdevices;
+	}
+	public ArrayList<Device> ZeroUdevices() {
+		return ZeroUdevices;
+	}
+	public ArrayList<Device> DualHeadDevices() {
+		return DualHeadDevices;
+	}
+	public ArrayList<Device> Onedevice() {
+		return Onedevice;
+	}
 	public ArrayList<Device> allDevices() {
 		return allDevices;
 	}
@@ -104,6 +125,7 @@ public class AppliancePool {
 	public void loadProperties(String deviceFile) {
 		try {
 			InputStream in = new FileInputStream(deviceFile);
+			deviceProperties.clear();
 			deviceProperties.load(in);
 			in.close();
 			System.out.println("Device properties loaded! ");
@@ -120,6 +142,9 @@ public class AppliancePool {
 	 */
 	public void setDevices() {
 		//invisaPC
+		
+		allDevices.clear();
+		
 		for(int j=0; j < 20; j++) {
 			String details = deviceProperties.getProperty("device" + j);
 			if(details == null) {
@@ -134,25 +159,14 @@ public class AppliancePool {
 			Device device = new Device(parsedDetails[0], parsedDetails[1], parsedDetails[2], parsedDetails[3], parsedDetails[4]);
           
             
-            //			device.setReceiver(parsedDetails[4]);
-//			device.setDual(parsedDetails[5]);
-			allDevices.add(device);
+         
+			
+				allDevices.add(device);
+				
 		}
 
 
-		//emerald
-//		for(int k= 0; k < 20; k++) {
-//			String eDetails = deviceProperties.getProperty("edevice" + k);
-//			if(eDetails == null) {
-//				break;
-//			}
-//			String[] parsedDetails = eDetails.split(",");
-//			Device device = new Device(parsedDetails[0], parsedDetails[1], parsedDetails[2], parsedDetails[3], true, parsedDetails[6]);
-//			device.setReceiver(parsedDetails[4]);
-//			device.setDual(parsedDetails[5]);
-//			allDevices.add(device);
-//			System.out.println(device.toString());
-//		}
+	
 	}
 
 
@@ -246,6 +260,7 @@ public class AppliancePool {
 	 * Loads properties file, sets the device objects and sorts the devices
 	 */
 	public ArrayList<Device> getAllDevices(String PropertyFile) {
+		
 		loadProperties(PropertyFile);
 		setDevices();
 		//caterogizeDevices();

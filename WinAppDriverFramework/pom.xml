@@ -33,8 +33,20 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
                 <suiteXmlFile>testng.xml</suiteXmlFile>
             </suiteXmlFiles>
         </configuration>        
-    </plugin>   
+    </plugin>  
+    
+    <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <configuration>
+    <compilerArgument>-XDignore.symbol.file</compilerArgument>
+  </configuration>
+</plugin>
+     
   </plugins>
+  
+  
+  
   </build>
  
  
