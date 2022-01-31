@@ -19,7 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
-
+import org.testng.log4testng.Logger;
 
 
 import io.restassured.RestAssured;
@@ -37,9 +37,11 @@ import pages.UserPage;
 import pages.boxillaElements;
 
 public class Firstphase extends TestBase{
+	
+	final static Logger log = Logger.getLogger(Firstphase.class);
 	UserPage userpage = new UserPage();
 	
-	@Test
+	@Test //Change the appliance setting to absolute
 	public void Test01_SR0018() throws Exception {
 		printTestDetails("STARTING ", "Test01_SR0018", "");
 		cleanUpLogin();
@@ -73,6 +75,8 @@ public class Firstphase extends TestBase{
 					}
 				}
 				System.out.println("Successfully checked if device is online");
+				if (!SeleniumActions.seleniumGetText(firedrive, Devices.applianceTable).contains("RX")) {
+					
 				if (SeleniumActions.seleniumGetText(firedrive, Devices.applianceTable).contains(deviceList.getIpAddress())) {
 					SeleniumActions.seleniumClick(firedrive, Devices.breadCrumbBtn);
 					System.out.println("Devices > Settings > Options - Clicked on breadcrumb");
@@ -80,8 +84,10 @@ public class Firstphase extends TestBase{
 					System.out.println("Devices > Status > Options - Searched device not found");
 					throw new SkipException("***** Searched device - " + deviceList.getIpAddress() + " not found *****");
 				}
+				
 				SeleniumActions.seleniumClick(firedrive, Devices.editSettings());
 				System.out.println("clicked on Edit settings");
+				
 				Devices.uniqueHidDropdown(firedrive,"Absolute");
 				System.out.println("Attempting to save transmitter properties");
 				timer(firedrive);
@@ -104,6 +110,8 @@ public class Firstphase extends TestBase{
 					
 					
 				}
+				System.out.println("No update for Receiver");
+		}
 		
 			}
 		
@@ -111,7 +119,7 @@ public class Firstphase extends TestBase{
 		
 	
 	
-	@Test
+	@Test //The Emerald RemoteApp shall only operate when a Boxilla Manager is present and active, unless in demo mode
 	public void Test02_CL0001() throws Exception {
 		printTestDetails("STARTING ", "Test02_CL0001", "");
 		setup();
@@ -154,7 +162,7 @@ public class Firstphase extends TestBase{
 	
 	}
 	
-	@Test
+	@Test //The Emerald RemoteApp shall provide an option to configure the IP address for the active Boxilla Manager.
 	public void Test03_CL0002() {
 		printTestDetails("STARTING ", "Test03_CL0002", "");
 		setup();
@@ -176,7 +184,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	@Test // loging to boxilla and confirm the active user that logged in RemoteApp
 	public void Test04_CL0003() throws Exception {
 		printTestDetails("STARTING ", "Test04_CL0003", "");
 		cleanUpLogin();
@@ -191,7 +199,7 @@ public class Firstphase extends TestBase{
 		System.out.println("Password Entered");
 		loginButton.click();
 		System.out.println("Login button clicked");
-		Thread.sleep(10000);
+		Thread.sleep(30000);
 		cleanUpLogin();
 		String username=UserPage.currentUser(firedrive,RAusername,10);
 		Assert.assertTrue(username.contains(RAusername),
@@ -203,7 +211,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	@Test //Authenticate user RA test
 	public void Test05_SR0021() throws Exception {
 		printTestDetails("STARTING ", "Test05_SR0021", "");
 		setup();
@@ -240,13 +248,13 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	//@Test
+	//@Test Remote app maximum limit to user
 	public void Test06_CL0005a() throws Exception {
 		printTestDetails("STARTING ", "Test06_CL0005a", "");
 
 		Onedevices = devicePool.getAllDevices("Onedevice.properties");
 		cleanUpLogin();
-		SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices,5);
+		SharedNames=ConnectionPage.Sharedconnection(firedrive,Onedevices,5,"shared");
 		UserPage.Sharedconnectionassign(firedrive, RAusername, SharedNames);
 		int count=0;
 		int connectionNumber=1;
@@ -293,13 +301,13 @@ public class Firstphase extends TestBase{
 			
 	}
 		closeApp();
-		for(int i=1;i<6;i++) {
-		ConnectionPage.DeleteConnection(firedrive, Onedevices);
-		}
+		
+		ConnectionPage.DeleteSharedConnection(firedrive, SharedNames);
+		
 		UserPage.DeleteUser(firedrive, RAusername);
 		}
 		
-	@Test
+	@Test //RA configuration for connection, settings and information
 	public void Test07_AI0004() throws Exception {
 		printTestDetails("STARTING ", "Test07_AI0004", "");
 		//setup();
@@ -335,7 +343,7 @@ public class Firstphase extends TestBase{
 		
 	}
 		
-	@Test
+	@Test //Software version and blackbox contact details
 	public void Test08_AI0046() throws Exception {
 		printTestDetails("STARTING ", "Test08_AI0046", "");
 		cleanUpLogin();
@@ -358,7 +366,7 @@ public class Firstphase extends TestBase{
 		softAssert.assertAll();
 	}
 	
-	@Test
+	@Test //Help information should be shown
 	public void Test09_AI0047() throws Exception {
 		printTestDetails("STARTING ", "Test09_AI0047", "");
 		cleanUpLogin();
@@ -378,7 +386,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test
+	@Test //This “Auto” value is the preferred value of the local desktop.
 	public  void Test10_VI0006() throws Exception{
 		printTestDetails("STARTING ", "Test10_VI0006", "");
 		cleanUpLogin();
@@ -475,27 +483,9 @@ public class Firstphase extends TestBase{
 			softAssert.assertAll();
 	}
 		
-	//@Test Part of Future
-	public void Test13_AI0022() throws Exception {
-		printTestDetails("STARTING ", "Test13_AI0022", "");
-		cleanUpLogin();
-		userpage.Remoteaccess(firedrive);
-		cleanUpLogout();
-		RAlogin("admin","admin");
-		WebElement availableConnectionsList = getElement("availableConnectionsWinListBox");
-		
-		List<WebElement> availableConnections = availableConnectionsList.findElements(By.xpath("//ListItem"));
-		System.out.println("Available connection shown are"+availableConnections);
-		softAssert.assertTrue(devices.equals(availableConnections),"All Connections are not shown in RemoteApp for  Administrator user");
-		closeApp();
-		cleanUpLogin();
-		userpage.Remoteaccess(firedrive);
-		cleanUpLogout();
-		softAssert.assertAll();
-		
-	}
 	
-	@Test
+	
+	//@Test //ensure the launched connection not to impact and user need not to change the password in current session.
 	public void Test14_AI0032() throws Exception {
 		printTestDetails("STARTING ", "Test14_AI0032", "");
 		Onedevices=devicePool.getAllDevices("Onedevice.properties");
@@ -503,6 +493,7 @@ public class Firstphase extends TestBase{
 		Thread.sleep(3000);
 		ConnectionPage.createprivateconnections(firedrive,Onedevices);
 		userpage.createUser(firedrive,Onedevices,RAusername,RApassword,"General");
+		Thread.sleep(3000);
 		cleanUpLogout();
 		RAlogin(RAusername,RApassword);
 		System.out.println("Logged into RemoteApp");
@@ -520,13 +511,13 @@ public class Firstphase extends TestBase{
 			      doubleClick().
 			      build().perform();
 			      Thread.sleep(30000);
-			      System.out.println(targetConnection.getTagName()+"  connection is launched");
+			      System.out.println(targetConnection.getText()+"  connection is launched");
 			    //  Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
 				}
 			Thread.sleep(10000);
 			cleanUpLogin();
-			Thread.sleep(3000);
-			new WebDriverWait(firedrive, 60).until(ExpectedConditions.elementToBeClickable(userpage.user(firedrive)));
+			Thread.sleep(4000);
+		//	new WebDriverWait(firedrive, 60).until(ExpectedConditions.elementToBeClickable(userpage.user(firedrive)));
 			userpage.user(firedrive).click();
 			System.out.println("User clicked");
 			firedrive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -605,7 +596,7 @@ public class Firstphase extends TestBase{
 		
 	}
 	
-	@Test //Multiple connection will fail
+	//@Test //Multiple connection will fail
 	
 	public void Test16_CL0006a() throws Exception{
 		printTestDetails("STARTING ", "Test16_CL0006a", "");
@@ -746,7 +737,7 @@ public class Firstphase extends TestBase{
 	// softAssertion.assertAll();
 			}
 	
-	
+	//Launch Connection to PE transmitter
 	@Test
 	public void Test18_DC0001() throws Exception {
 		printTestDetails("STARTING ", "Test18_DC0001", "");
@@ -815,7 +806,7 @@ public class Firstphase extends TestBase{
 	 Thread.sleep(5000);
 	 ConnectionPage.DeleteConnection(firedrive, PEDevices);
 	 cleanUpLogout();
-	 softAssertion.assertAll();
+	 softAssert.assertAll();
 			}
 	
 	
@@ -984,7 +975,7 @@ public class Firstphase extends TestBase{
 	
 	
 	
-	@Test
+	@Test//. Close remote application while connections are running
 	public void Test21_AI0038() throws Exception {
 		printTestDetails("STARTING ", "Test21_AI0038", "");
 		ArrayList<Device> ZuDevices = new ArrayList<Device>();
@@ -1094,33 +1085,54 @@ public class Firstphase extends TestBase{
 			}
 			  System.out.println("Launching connection");
 			  Actions a = new Actions(Windriver);
-			  WebElement targetConnection = availableConnectionsList.findElement(By.name(connectionPEList.get(0)));
+			  WebElement targetConnection = availableConnectionsList.findElement(By.name(connectionPEList.get(1)));
 		      a.moveToElement(targetConnection).
 		      doubleClick().
 		      build().perform();
-//		      Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
-//		      WebElement windowsPopupOpenButton =  Windriver.findElementByName("Connection Launch: "+targetConnection);
-//		      String text= windowsPopupOpenButton.getText();//
+		      new WebDriverWait(Windriver, 60).until(ExpectedConditions.visibilityOf(Windriver.findElementByAccessibilityId("TitleBar")));
+//		      System.out.println(Windriver.getWindowHandles().size());
+//		      Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[1]);
+		      WebElement windowsPopupconnection =  Windriver.findElementByAccessibilityId("TitleBar");
+		      String ConnectionText= windowsPopupconnection.getText();//
+		     System.out.println(ConnectionText);
+		     softAssert.assertTrue(ConnectionText.contains("Connection Launch:"), "Connection Launch: Message didn't display");
+		     Thread.sleep(20000);
+		     Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
+		     Windriver.findElement(By.name(connectionPEList.get(1))).click();
+		     Windriver.findElement(By.name("Disconnect")).click();
+		     System.out.println(Windriver.getWindowHandles().size());
+		     Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[1]);
+		  //   new WebDriverWait(Windriver, 60).until(ExpectedConditions.visibilityOf(Windriver.findElementByName("ConnectionName is terminated")));
+		    try {
+		    	WebElement windowsPopupDisconnect =  Windriver.findElementByAccessibilityId("TitleBar");
+		    	String Disconnecttext= windowsPopupDisconnect.getText();//
+			     System.out.println(Disconnecttext);
+			     softAssert.assertTrue(Disconnecttext.contains("ConnectionName is terminated."), "ConnectionName is terminated. Message didn't display");
+			     Thread.sleep(5000);
+		  		//Windriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
+		  		 Windriver.switchTo().window(Windriver.getWindowHandle());
+				 closeApp();
+				 cleanUpLogin();
+				 UserPage.DeleteUser(firedrive, RAusername);
+				 Thread.sleep(5000);
+				 ConnectionPage.DeleteConnection(firedrive, remotedevice);
+				 cleanUpLogout();
+				 softAssertion.assertAll();
+		    }catch(Exception e) {
+		    	e.printStackTrace();
+		    	 Windriver.switchTo().window(Windriver.getWindowHandle());
+				 closeApp();
+				 cleanUpLogin();
+				 UserPage.DeleteUser(firedrive, RAusername);
+				 Thread.sleep(5000);
+				 ConnectionPage.DeleteConnection(firedrive, remotedevice);
+				 cleanUpLogout();
+		    }
 		     
-		    Thread.sleep(30000);
-		    Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
-			Windriver.findElement(By.name(connectionPEList.get(0))).click();
-			Windriver.findElement(By.name("Disconnect")).click();
-		//	 WebElement windowsdisconnectButton = Windriver.findElementByName("Connection Launch:"+connectionPEList.get(0));
-	   //       String disconnecttext= windowsPopupOpenButton.getText();
-	  		Windriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); 
-	  	//	System.out.println("Alert Message is  "+text);
 			
-			Thread.sleep(5000);
+			
 				
-		 Windriver.switchTo().window(Windriver.getWindowHandle());
-		 closeApp();
-		 cleanUpLogin();
-		 UserPage.DeleteUser(firedrive, RAusername);
-		 Thread.sleep(5000);
-		 ConnectionPage.DeleteConnection(firedrive, remotedevice);
-		 cleanUpLogout();
-		softAssertion.assertAll();
+		
 		
 	
 }
@@ -1208,6 +1220,7 @@ public class Firstphase extends TestBase{
 			//open boxilla 
 			cleanUpLogin();
 			//create user
+			Thread.sleep(3000);
 			userpage.user(firedrive).click();
 			firedrive.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 			userpage.manage(firedrive).click();
@@ -1228,7 +1241,7 @@ public class Firstphase extends TestBase{
 	
 		
 		
-		@Test
+	@Test
 		public void Test26_SR0046() throws Exception {
 			printTestDetails("STARTING ", "Test26_SR0046", "");
 			

@@ -49,7 +49,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Default_suite">
-                    <span>C:\Users\blackbox\AppData\Local\Temp\testng-eclipse--2044565783\testng-customsuite.xml</span>
+                    <span>C:\Users\blackbox\AppData\Local\Temp\testng-eclipse-1687930477\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -102,7 +102,7 @@
                     <div class="method-list-content failed suite-Default_suite">
                       <span>
                         <img width="3%" src="failed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="tests.SecondPhase" hash-for-method="Test5_AI0050">Test5_AI0050</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="tests.Thirdstage" hash-for-method="Test06_SR0025">Test06_SR0025</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content failed suite-Default_suite -->
@@ -120,46 +120,61 @@
           <div class="suite-Default_suite-class-failed">
             <div class="main-panel-header rounded-window-top">
               <img src="failed.png"/>
-              <span class="class-name">tests.SecondPhase</span>
+              <span class="class-name">tests.Thirdstage</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="Test5_AI0050">
-                  </a> <!-- Test5_AI0050 -->
-                  <span class="method-name">Test5_AI0050</span>
-                  <div class="stack-trace">org.openqa.selenium.NoSuchElementException: An element could not be located on the page using the given search parameters. (WARNING: The server did not provide any stacktrace information)
-Command duration or timeout: 0 milliseconds
-For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
-Build info: version: &apos;3.141.59&apos;, revision: &apos;e82be7d358&apos;, time: &apos;2018-11-14T08:17:03&apos;
-System info: host: &apos;ST-RA-WIN10-VM&apos;, ip: &apos;10.211.132.23&apos;, os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;1.8.0_301&apos;
-Driver info: io.appium.java_client.windows.WindowsDriver
-Capabilities {app: C:\Program Files\Git\Emeral..., javascriptEnabled: true, platform: WINDOWS, platformName: Windows}
-Session ID: FA3185E4-9068-415F-B8AB-1308748AB1DE
-*** Element info: {Using=accessibility id, value=logInButton}
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
-	at java.lang.reflect.Constructor.newInstance(Unknown Source)
-	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
-	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
-	at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
-	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
-	at io.appium.java_client.remote.AppiumCommandExecutor.execute(AppiumCommandExecutor.java:247)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
-	at io.appium.java_client.DefaultGenericMobileDriver.execute(DefaultGenericMobileDriver.java:41)
-	at io.appium.java_client.AppiumDriver.execute(AppiumDriver.java:1)
-	at io.appium.java_client.windows.WindowsDriver.execute(WindowsDriver.java:1)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
-	at io.appium.java_client.DefaultGenericMobileDriver.findElement(DefaultGenericMobileDriver.java:61)
-	at io.appium.java_client.AppiumDriver.findElement(AppiumDriver.java:1)
-	at io.appium.java_client.windows.WindowsDriver.findElement(WindowsDriver.java:1)
-	at io.appium.java_client.FindsByAccessibilityId.findElementByAccessibilityId(FindsByAccessibilityId.java:37)
-	at tests.TestBase.getElement(TestBase.java:287)
-	at tests.TestBase.RAlogin(TestBase.java:246)
-	at tests.SecondPhase.Test5_AI0050(SecondPhase.java:359)
+                  <a name="Test06_SR0025">
+                  </a> <!-- Test06_SR0025 -->
+                  <span class="method-name">Test06_SR0025</span>
+                  <div class="stack-trace">java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/StreamReadFeature
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Unknown Source)
+	at java.lang.Class.privateGetPublicMethods(Unknown Source)
+	at java.lang.Class.getMethods(Unknown Source)
+	at java.beans.Introspector.getPublicDeclaredMethods(Unknown Source)
+	at java.beans.Introspector.getTargetMethodInfo(Unknown Source)
+	at java.beans.Introspector.getBeanInfo(Unknown Source)
+	at java.beans.Introspector.getBeanInfo(Unknown Source)
+	at groovy.lang.MetaClassImpl.lambda$addProperties$4(MetaClassImpl.java:3460)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at groovy.lang.MetaClassImpl.addProperties(MetaClassImpl.java:3460)
+	at groovy.lang.MetaClassImpl.reinitialize(MetaClassImpl.java:3442)
+	at groovy.lang.MetaClassImpl.initialize(MetaClassImpl.java:3435)
+	at org.codehaus.groovy.reflection.ClassInfo.getMetaClassUnderLock(ClassInfo.java:273)
+	at org.codehaus.groovy.reflection.ClassInfo.getMetaClass(ClassInfo.java:315)
+	at org.codehaus.groovy.reflection.ClassInfo.getMetaClass(ClassInfo.java:325)
+	at org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl.getMetaClass(MetaClassRegistryImpl.java:262)
+	at org.codehaus.groovy.runtime.InvokerHelper.getMetaClass(InvokerHelper.java:983)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.createPojoSite(CallSiteArray.java:116)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.createCallSite(CallSiteArray.java:160)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:130)
+	at io.restassured.internal.mapping.Jackson2Mapper.serialize(Jackson2Mapper.groovy:52)
+	at io.restassured.internal.mapping.Jackson2Mapper.serialize(Jackson2Mapper.groovy)
+	at io.restassured.mapper.ObjectMapper$serialize.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at io.restassured.internal.mapping.ObjectMapping.serializeWithJackson2(ObjectMapping.groovy:209)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite$StaticMetaMethodSiteNoUnwrapNoCoerce.invoke(StaticMetaMethodSite.java:149)
+	at org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite.callStatic(StaticMetaMethodSite.java:100)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)
+	at io.restassured.internal.mapping.ObjectMapping.serialize(ObjectMapping.groovy:150)
+	at io.restassured.internal.mapping.ObjectMapping$serialize.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at io.restassured.internal.RequestSpecificationImpl.body(RequestSpecificationImpl.groovy:753)
+	at tests.Thirdstage.Test06_SR0025(Thirdstage.java:422)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -185,6 +200,12 @@ Session ID: FA3185E4-9068-415F-B8AB-1308748AB1DE
 	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:230)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:76)
+Caused by: java.lang.ClassNotFoundException: com.fasterxml.jackson.core.StreamReadFeature
+	at java.net.URLClassLoader.findClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 71 more
 
 </div> <!-- stack-trace -->
                 </div> <!-- method-content -->
@@ -194,7 +215,7 @@ Session ID: FA3185E4-9068-415F-B8AB-1308748AB1DE
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\blackbox\AppData\Local\Temp\testng-eclipse--2044565783\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\blackbox\AppData\Local\Temp\testng-eclipse-1687930477\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -203,7 +224,7 @@ Session ID: FA3185E4-9068-415F-B8AB-1308748AB1DE
 &lt;suite guice-stage=&quot;DEVELOPMENT&quot; name=&quot;Default suite&quot;&gt;
   &lt;test verbose=&quot;2&quot; name=&quot;Default test&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;tests.SecondPhase&quot;/&gt;
+      &lt;class name=&quot;tests.Thirdstage&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Default test --&gt;
 &lt;/suite&gt; &lt;!-- Default suite --&gt;
@@ -245,14 +266,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'Test5_AI0050')
-data.setCell(0, 2, 'tests.SecondPhase')
-data.setCell(0, 3, 116015);
+data.setCell(0, 1, 'Test06_SR0025')
+data.setCell(0, 2, 'tests.Thirdstage')
+data.setCell(0, 3, 257157);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 1 minutes</span>
+              <span class="suite-total-time">Total running time: 4 minutes</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -278,7 +299,7 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">tests.SecondPhase</div> <!-- chronological-class-name -->
+              <div class="chronological-class-name">tests.Thirdstage</div> <!-- chronological-class-name -->
               <div class="configuration-suite before">
                 <span class="method-name">login</span>
                 <span class="method-start">0 ms</span>
@@ -286,16 +307,16 @@ return data;
               <div class="test-method">
                 <img src="failed.png">
                 </img>
-                <span class="method-name">Test5_AI0050</span>
-                <span class="method-start">42157 ms</span>
+                <span class="method-name">Test06_SR0025</span>
+                <span class="method-start">12812 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-method after">
-                <span class="method-name">logout([TestResult name=Test5_AI0050 status=FAILURE method=SecondPhase.Test5_AI0050()[pri:0, instance:tests...)</span>
-                <span class="method-start">158172 ms</span>
+                <span class="method-name">logout([TestResult name=Test06_SR0025 status=FAILURE method=Thirdstage.Test06_SR0025()[pri:0, instance:test...)</span>
+                <span class="method-start">269969 ms</span>
               </div> <!-- configuration-method after -->
               <div class="configuration-suite after">
                 <span class="method-name">closeoff</span>
-                <span class="method-start">158249 ms</span>
+                <span class="method-start">270031 ms</span>
               </div> <!-- configuration-suite after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

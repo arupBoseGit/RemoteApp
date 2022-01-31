@@ -3,6 +3,7 @@ package tests;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,14 +23,17 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.SkipException;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
@@ -37,6 +41,7 @@ import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
 import io.appium.java_client.windows.WindowsDriver;
+import io.appium.java_client.windows.WindowsElement;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import methods.AppliancePool;
 import methods.Device;
@@ -54,12 +59,13 @@ public class TestBase{
 	
 	
 	 public WindowsDriver Windriver;
+	 public WindowsDriver<WindowsElement> Windriver2=null;
 	 public WebDriver firedrive;
 	 public static Properties prop = new Properties();
 	 private Properties deviceProperties = new Properties();
 	 protected Device txSingle, rxSingle, txDual, rxDual, txEmerald, rxEmerald, shTx, dhTx, shRx, dhRx;
 	 public static int waitTime=30;
-	 
+	 Method method = null;
 	 public String singleTxName;
 	 public String singleRxName;
 	 protected String txIp = prop.getProperty("txIP");
@@ -82,6 +88,10 @@ public class TestBase{
 	 private static int testCounter;
 	 private static long splitTime;
 	 private static long startTime;
+	 public String VMUsername;
+	 public String VMPassword;
+	 public String VMDomainName;
+	 public String VMIp;
 	 SoftAssert softAssertion= new SoftAssert();
 	 ArrayList<String> connectionList = new ArrayList<String>();
 	 ArrayList<Device> devices;
@@ -95,8 +105,7 @@ public class TestBase{
 	 @BeforeSuite
 	 public void login() throws InterruptedException {
 		 loadProperties();
-		 devices = devicePool.getAllDevices("Onedevice.properties");
-		
+		 devices = devicePool.getAllDevices("device.properties");		 
 		 boxillaUsername = prop.getProperty("boxillaUsername");
 		 boxillaPassword = prop.getProperty("boxillaPassword");
 		 RAusername = prop.getProperty("RAusername");
@@ -107,17 +116,23 @@ public class TestBase{
 		 devicePassword = prop.getProperty("devicePassword");
 		 boxillaManager=prop.getProperty("boxillaManager");
 		 boxillaManager2=prop.getProperty("boxillaManager2");
+		 VMUsername=prop.getProperty("VMUsername");
+		 VMPassword=prop.getProperty("VMPassword");
+		 VMDomainName=prop.getProperty("VMDomainName");
+		 VMIp=prop.getProperty("VMIp");
 		 System.out.println("loaded username is "+boxillaUsername);
 		 System.out.println("loaded password is "+boxillaPassword);
-		 
+		 System.out.println("VMIP is  "+VMIp);
 		 try {
+		//	 extent = new ExtentReports("./TestReport.html", replaceExisting:true);
 			 System.out.println("Attempting to manage devices");
 			 System.out.println("BoxillaManager is "+boxillaManager);
 		 cleanUpLogin();
-//				enableNorthboundAPI(firedrive);
-//				Managedevices();
+//			enableNorthboundAPI(firedrive);
+// 			Managedevices();
 //				ConnectionPage.createprivateconnections(firedrive,devices);
 //				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
+			 cleanUpLogout(); 
 			//	userpage.ManageConnection(firedrive,devices,RAusername);
 				
 				
@@ -131,9 +146,13 @@ public class TestBase{
 				e.printStackTrace();
 				cleanUpLogout();
 			}
-			cleanUpLogout();
+			
 			
 	 }
+	 
+	 public class Reboot {
+			String [] device_names;
+		}
 	 
 	 public interface Callback {
 		 public void cleanUp();
@@ -216,14 +235,14 @@ public class TestBase{
         capabilities.setCapability("deviceName", "WindowsPC");
       try {
     	  Thread.sleep(1000);
-    	  Windriver = new WindowsDriver(new URL("http://127.0.0.1:4723"), capabilities);
-       
+    	   Windriver = new WindowsDriver<RemoteWebElement>(new URL("http://127.0.0.1:4723"),capabilities);
+    	   Windriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
       }
       catch(Exception e){
     	  System.out.println("Exception has occured ");
         e.printStackTrace();
       } 
-      Windriver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+      
       
     }
 	
@@ -239,10 +258,24 @@ public class TestBase{
 		}
 	  
 	}
-	
+//	@BeforeMethod
+//	public void initTestReport(Method method) {
+//		test = new ExtentTest(method.getName());
+//	}
+//	public ExtentTest report() {
+//		if(test!=null) {
+//			return test;
+//		}
+//		return null;
+//	}
 	public void RAlogin(String username, String Password) throws Exception {
 		setup();
-		this.Windriver.switchTo().window((String) this.Windriver.getWindowHandles().toArray()[0]);
+	//	this.Windriver.switchTo().window((String) this.Windriver.getWindowHandles().toArray()[0]);
+		System.out.println("current window is "+Windriver.getWindowHandles().toArray()[0]);
+	 //hold focus on the active window
+		
+		
+	//	Windriver.switchTo().frame(0);
 		WebElement loginButton = getElement("logInButton");
 		getElement("userNameTextBox").sendKeys(username);
 		System.out.println("Username Entered");
@@ -288,7 +321,7 @@ public void closeApp() {
 		}
 
 	
-	public List getElementId(String name) {
+	public List<?> getElementId(String name) {
 		System.out.println(Windriver.findElementByAccessibilityId(name));
 		return Windriver.findElementsByAccessibilityId(name);
 		}
@@ -411,16 +444,20 @@ public void closeApp() {
 		
 	public void cleanUpLogout() {
 		try {
-			Thread.sleep(1000);
+//			Thread.sleep(1000);
+//			firedrive.getCurrentUrl();
 //			firedrive.get(url);
 //			Thread.sleep(2000);
 			LandingPage.logoutDropdown(firedrive).click();
 			Thread.sleep(2000);
 			LandingPage.logoutbtn(firedrive).click();
+			System.out.println("Logged out of Boxilla");
 			Thread.sleep(2000);
-			firedrive.close();;
+			firedrive.close();
+			
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("Logged out of Boxilla");
 			firedrive.quit();
 			}
 }
@@ -582,6 +619,7 @@ public void closeApp() {
 			return new SimpleDateFormat("mm:ss").format(new Date(time));
 			
 		}
+		
 	}
 	
 

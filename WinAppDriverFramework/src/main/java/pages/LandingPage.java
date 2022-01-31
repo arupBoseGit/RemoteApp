@@ -166,7 +166,7 @@ public class LandingPage {
 	}
 
 	public static WebElement logoutbtn(WebDriver driver) { // Log Out Button
-		element = driver.findElement(By.xpath(".//*[@id='menu_item_logout']"));
+		element = driver.findElement(By.xpath(".//a[@id='menu_item_logout']"));//.//*[@id='menu_item_logout']
 		return element;
 	}
 

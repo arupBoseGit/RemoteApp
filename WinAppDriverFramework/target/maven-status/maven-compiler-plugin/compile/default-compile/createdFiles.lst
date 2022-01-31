@@ -1,4 +1,8 @@
 methods\DiscoveryMethods.class
+com\Extent\Listerner\AnnotationTransformer.class
+com\Extent\Listerner\TestUtil.class
+tests\ExtentReport.class
+com\Extent\Listerner\FixRetryListener.class
 methods\SystemAll.class
 methods\Switch$Column.class
 pages\Loginpage.class
@@ -12,9 +16,10 @@ methods\Device.class
 methods\Discovery.class
 pages\ConnectionPage.class
 methods\Users$USER_PRIVILEGE.class
+tests\SecondPhase.class
 tests\Utilities.class
-pages\pointsnoted.class
 pages\UserPage.class
+com\Extent\Listerner\RetryAnalyzer.class
 tests\Firstphase.class
 methods\Switch$PORT_COLUMN.class
 methods\AppliancePool.class

@@ -184,7 +184,9 @@ public class UserPage {
 			String deviceApplianceTable = SeleniumActions.seleniumGetText(drive, Devices.applianceTable);
 			Assert.assertTrue(deviceApplianceTable.contains(user),
 					"Device appliance table did not contain: " + user + ", actual text: " + deviceApplianceTable);
-			ManageConnection(drive,devicename, user);
+			if(devicename!=null) {
+				ManageConnection(drive,devicename, user);
+			}
 //			TestBase testbase = new TestBase();
 //			testbase.cleanUpLogout(drive);
 			//callback.cleanUp();

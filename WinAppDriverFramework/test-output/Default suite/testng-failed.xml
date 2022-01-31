@@ -3,14 +3,14 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="tests.SecondPhase">
+      <class name="tests.Thirdstage">
         <methods>
+          <include name="Test06_SR0025"/>
           <include name="logout"/>
           <include name="closeoff"/>
-          <include name="Test5_AI0050"/>
           <include name="login"/>
         </methods>
-      </class> <!-- tests.SecondPhase -->
+      </class> <!-- tests.Thirdstage -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
