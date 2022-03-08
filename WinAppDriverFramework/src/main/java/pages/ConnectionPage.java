@@ -14,15 +14,17 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.log4testng.Logger;
 
 import methods.AppliancePool;
 import methods.Device;
 import methods.Devices;
 import methods.SeleniumActions;
+import tests.SecondPhase;
 
 public class ConnectionPage {
 
-	
+	final static Logger log = Logger.getLogger(ConnectionPage.class);
 	private static WebElement element = null;
 
 	 
@@ -32,7 +34,7 @@ public class ConnectionPage {
 	}
 	
 	public static WebElement manage(WebDriver driver) {
-		element = driver.findElement(By.xpath("(.//span[@class='list-group-item-value'])[12]"));
+		element = driver.findElement(By.xpath("//a[@href='/connections/manage']"));//(.//span[@class='list-group-item-value'])[12]
 		return element;
 	}
 	
@@ -162,10 +164,14 @@ public class ConnectionPage {
 	}
 	
 	public static WebElement destinationID(WebDriver driver) {
-		element = driver.findElement(By.xpath("(.//input[@id='destination-name'])[2]"));
+		element = driver.findElement(By.xpath("(.//input[@id='source-name'])[3]"));
 		return element;
 	}
 			
+	public static WebElement PrivatedestinationID(WebDriver driver) {
+		element = driver.findElement(By.xpath(".//input[@id='destSelect']"));
+		return element;
+	}
 	public static WebElement checkBox(WebDriver driver) {
 		element = driver.findElement(By.xpath("(.//input[@type='checkbox'])[2]"));
 		return element;
@@ -182,7 +188,16 @@ public class ConnectionPage {
 			}
 	
 	public static WebElement ActivateselectedRx(WebDriver driver) {
-		element = driver.findElement(By.xpath("(//*[text()[contains(.,'Activate')]])[3]"));
+		element = driver.findElement(By.xpath("(//*[text()[contains(.,'Activate')]])[4]"));
+		return element;
+			}
+	
+	public static WebElement HoverConnection(WebDriver driver,ArrayList connName) {
+		element = driver.findElement(By.xpath("(//*[text()[contains(.,'"+connName+"')]])[1]"));
+		return element;
+			}
+	public static WebElement ActivatesharedselectedRx(WebDriver driver) {
+		element = driver.findElement(By.xpath("(//*[text()[contains(.,'Activate Selected')]])[3]"));
 		return element;
 			}
 	public static int TableContent(WebDriver driver) {
@@ -256,10 +271,16 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 				for(Device deviceList : devicename) {
 					System.out.println("Adding the connection "+deviceList.getIpAddress());
 					for(int i=1;i<=number;i++) {
-					connections(driver).click();
-					driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
-					manage(driver).click();
+//					connections(driver).click();
+//					driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+//					manage(driver).click();
 //					driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+					
+					SeleniumActions.seleniumClick(driver, LandingPage.connectionsTab);
+					log.info("Navigate to Connections > Manage : Connections Tab clicked");
+					new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(By.xpath( LandingPage.connectionsManage)));
+					SeleniumActions.seleniumClick(driver, LandingPage.connectionsManage);
+					log.info("Navigate to Connections > Manage : Connections > Manage Tab clicked");
 					newconnection(driver).click();
 					driver.manage().timeouts().implicitlyWait(4,TimeUnit.SECONDS);
 					connectionName(driver).sendKeys(deviceList.getIpAddress()+"test"+i);
@@ -299,10 +320,11 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 			
 				for(Device deviceList : devicename) {
 					System.out.println("Adding the connection "+deviceList.getIpAddress());
-					connections(driver).click();
-					driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
-					manage(driver).click();
-					driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
+					SeleniumActions.seleniumClick(driver, LandingPage.connectionsTab);
+					log.info("Navigate to Connections > Manage : Connections Tab clicked");
+					new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(By.xpath( LandingPage.connectionsManage)));
+					SeleniumActions.seleniumClick(driver, LandingPage.connectionsManage);
+					log.info("Navigate to Connections > Manage : Connections > Manage Tab clicked");
 					newconnection(driver).click();
 					driver.manage().timeouts().implicitlyWait(4,TimeUnit.SECONDS);
 					connectionName(driver).sendKeys(deviceList.getIpAddress());
@@ -330,11 +352,12 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 			
 	public static void CreateRDPconnection(WebDriver driver, String VMIp, String VMusername, String VMpassword, String VMdomain) throws Exception {
 			
-		ConnectionPage.connections(driver).click();
-		driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
-		ConnectionPage.manage(driver).click();
-//		driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-		ConnectionPage.newconnection(driver).click();
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsTab);
+		log.info("Navigate to Connections > Manage : Connections Tab clicked");
+		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(By.xpath( LandingPage.connectionsManage)));
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsManage);
+		log.info("Navigate to Connections > Manage : Connections > Manage Tab clicked");
+		newconnection(driver).click();
 		driver.manage().timeouts().implicitlyWait(4,TimeUnit.SECONDS);
 		ConnectionPage.connectviaRDP(driver).click();
 		ConnectionPage.connectionName(driver).sendKeys(VMIp);
@@ -359,45 +382,34 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 
 	public static void DeleteConnection(WebDriver driver, ArrayList<Device> devicename) throws Exception {
 			
-		connections(driver).click();
-		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
-		manage(driver).click();
-		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
-//		for(String deviceList : SharedNames) {
-//			System.out.println("Deleting the connection "+deviceList);
-//			searchOption(driver).clear();
-//			searchOption(driver).sendKeys(deviceList);
-//			driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-//			Optionicon(driver).click();
-//			Deleteoption(driver).click();
-//			driver.switchTo().alert().accept();
-//			System.out.println(deviceList+" is deleted");
-//			Thread.sleep(2000);
-//	}
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsTab);
+		log.info("Navigate to Connections > Manage : Connections Tab clicked");
+		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(By.xpath( LandingPage.connectionsManage)));
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsManage);
+		log.info("Navigate to Connections > Manage : Connections > Manage Tab clicked");
+
 		for(Device deviceList : devicename) {
 			System.out.println("Deleting the connection "+deviceList.getIpAddress());
 			searchOption(driver).clear();
 			searchOption(driver).sendKeys(deviceList.getIpAddress());
 			driver.manage().timeouts().implicitlyWait(3,TimeUnit.SECONDS);
-			//if(TableContent(driver)!=0) {
 			Optionicon(driver).click();
 			Deleteoption(driver).click();
 			driver.switchTo().alert().accept();
 			System.out.println(deviceList.getIpAddress()+" is deleted");
 			Thread.sleep(2000);
-		//	}
-		//	else
-		//	System.out.println(" connection named - "+deviceList.getIpAddress()+" is not in the list");
+		
 	}
 	
 }
 	
 	public static void DeleteSharedConnection(WebDriver driver, ArrayList<String> devicename) throws Exception {
 		
-		connections(driver).click();
-		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
-		manage(driver).click();
-		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsTab);
+		log.info("Navigate to Connections > Manage : Connections Tab clicked");
+		new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(By.xpath( LandingPage.connectionsManage)));
+		SeleniumActions.seleniumClick(driver, LandingPage.connectionsManage);
+		log.info("Navigate to Connections > Manage : Connections > Manage Tab clicked");
 		for(String deviceList : devicename) {
 			System.out.println("Deleting the connection "+deviceList);
 			searchOption(driver).clear();
@@ -411,7 +423,7 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 	}
 	}
 	
-				 public static void launchConnection(WebDriver driver, ArrayList<String> connectionName, String receivername) throws InterruptedException {
+				 public static void launchPrivateConnection(WebDriver driver, ArrayList<String> connectionName, String receivername) throws InterruptedException {
 					 for(String connection : connectionName) {
 							 connections(driver).click();
 							 ConnectionViewer(driver).click();
@@ -425,7 +437,7 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 							 AddDestination(driver).click();
 							 Thread.sleep(3000);
 							// new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(destinationID(driver)));
-							 destinationID(driver).sendKeys(receivername);							
+							 PrivatedestinationID(driver).sendKeys(receivername);							
 							// firstItemInSourceList(driver, receivername).click();
 							 ActivateselectedRx(driver).click();
 							 driver.navigate().refresh();
@@ -433,10 +445,33 @@ public static ArrayList CreateConnection(WebDriver driver, ArrayList<Device> dev
 						 }
 				 }
 				 
-				 public static void BreakboxillaConnection(WebDriver driver) {
-					 
+				 public static void launchSharedConnection(WebDriver driver, ArrayList<String> connectionName, String receivername) throws InterruptedException {
+					 for(String connection : connectionName) {
+							 connections(driver).click();
+							 ConnectionViewer(driver).click();
+							 MakeConnection(driver).click();
+							 InputID(driver).sendKeys(connection);
+							 new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(firstItemInSourceList(driver, connection)));
+							 firstItemInSourceList(driver, connection).click();
+							 ActivateselectedTx(driver).click();
+							 Thread.sleep(3000);
+							// new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(AddDestination(driver)));
+							 AddDestination(driver).click();
+							 Thread.sleep(3000);
+							 destinationID(driver).sendKeys(receivername);
+							 new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(firstItemInSourceList(driver, receivername)));
+							 firstItemInSourceList(driver, receivername).click();
+							 ActivatesharedselectedRx(driver).click();
+							 driver.navigate().refresh();
+							 System.out.println("Connection Launched in Tx-Rx");
+						 }
+				 }
+				 
+				 public static void BreakboxillaConnection(WebDriver driver) throws InterruptedException {
+					 new WebDriverWait(driver, 60).until(ExpectedConditions.elementToBeClickable(connections(driver)));
 					 connections(driver).click();
 					 ConnectionViewer(driver).click();
+					 Thread.sleep(2000);
 					 DisconnectConnection(driver).click();
 					 
 				 }

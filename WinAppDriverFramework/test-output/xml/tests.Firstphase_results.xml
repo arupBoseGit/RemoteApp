@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="winAppDriverFramework"
+           tests="1"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="33.453">
+  <properties />
+  
+  
+            <testcase name="Test02_CL0001" time="33.453" classname="tests.Firstphase" />
+      
+</testsuite>

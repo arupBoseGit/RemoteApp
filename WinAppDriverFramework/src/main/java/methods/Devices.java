@@ -694,6 +694,7 @@ public class Devices {
 				if(e.isDisplayed()) {
 					Select select = new Select(e);
 					select.selectByVisibleText(text);
+					System.out.println(text+" has been selected");
 					break;
 				}
 			}catch(Exception e1){

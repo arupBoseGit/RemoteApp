@@ -1,5 +1,7 @@
 package tests;
 
+import static io.restassured.RestAssured.given;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +14,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import extra.RESTStatistics;
+import extra.RESTStatistics.REQUEST_TYPE;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -43,6 +48,8 @@ import org.testng.asserts.SoftAssert;
 import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.WindowsElement;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import methods.AppliancePool;
 import methods.Device;
 import methods.Devices;
@@ -50,34 +57,39 @@ import methods.DiscoveryMethods;
 import methods.SeleniumActions;
 import methods.Switch;
 import methods.SystemAll;
+import pages.BoxillaHeaders;
 import pages.ConnectionPage;
 import pages.LandingPage;
 import pages.UserPage;
 import pages.boxillaElements;
 
-public class TestBase{
+public class TestBase extends RESTStatistics {
 	
 	
-	 public WindowsDriver Windriver;
-	 public WindowsDriver<WindowsElement> Windriver2=null;
-	 public WebDriver firedrive;
+	 public static WindowsDriver Windriver;
+	 public static WindowsDriver Windriver2=null;
+	 public static WebDriver firedrive;
 	 public static Properties prop = new Properties();
 	 private Properties deviceProperties = new Properties();
-	 protected Device txSingle, rxSingle, txDual, rxDual, txEmerald, rxEmerald, shTx, dhTx, shRx, dhRx;
+	 protected static Device txSingle, rxSingle, txDual, rxDual, txEmerald, rxEmerald, shTx, dhTx, shRx, dhRx;
 	 public static int waitTime=30;
 	 Method method = null;
-	 public String singleTxName;
-	 public String singleRxName;
-	 protected String txIp = prop.getProperty("txIP");
-	 protected String txIpDual = prop.getProperty("txIPDual");
-	 public String dualTxName;
-	
-	 String boxillaManager;
-	 String boxillaManager2;
+	 public static String singleTxName;
+	 public static String singleRxName;
+	 protected static String txIp = prop.getProperty("txIP");
+	 protected static String txIpDual = prop.getProperty("txIPDual");
+	 public static String dualTxName;
+	 protected static String adIp = "10.211.129.221";
+	 protected static String adPort = "389";
+	 protected static String adDomain = "bbtest.com";
+	 protected static String adUsername = "arup";
+	 protected static String adPassword = "arupAD";	
+	 public static String boxillaManager;
+	 public static String boxillaManager2;
 	 public static String RAusername;
 	 public static String RApassword;
-	 public String AutomationUsername;
-	 public String AutomationPassword;
+	 public static String AutomationUsername;
+	 public static String AutomationPassword;
 	 public static String boxillaUsername;
 	 public static String boxillaPassword;
 	 public static String deviceUserName, devicePassword;
@@ -88,18 +100,17 @@ public class TestBase{
 	 private static int testCounter;
 	 private static long splitTime;
 	 private static long startTime;
-	 public String VMUsername;
-	 public String VMPassword;
-	 public String VMDomainName;
-	 public String VMIp;
-	 SoftAssert softAssertion= new SoftAssert();
+	 public static String VMUsername;
+	 public static String VMPassword;
+	 public static String VMDomainName;
+	 public static String VMIp;
+	 
 	 ArrayList<String> connectionList = new ArrayList<String>();
 	 ArrayList<Device> devices;
 	 ArrayList<Device> Onedevices;
 	 ArrayList<String> SharedNames;
 		 UserPage userpage = new UserPage();
-		 SoftAssert softAssert = new SoftAssert();
-	
+
 	
 	
 	 @BeforeSuite
@@ -123,13 +134,16 @@ public class TestBase{
 		 System.out.println("loaded username is "+boxillaUsername);
 		 System.out.println("loaded password is "+boxillaPassword);
 		 System.out.println("VMIP is  "+VMIp);
+		
 		 try {
 		//	 extent = new ExtentReports("./TestReport.html", replaceExisting:true);
 			 System.out.println("Attempting to manage devices");
 			 System.out.println("BoxillaManager is "+boxillaManager);
-		 cleanUpLogin();
-//			enableNorthboundAPI(firedrive);
-// 			Managedevices();
+			 cleanUpLogin();
+			 enableNorthboundAPI(firedrive);
+			 Managedevices();
+//			 getApplianceVersion(txIp);
+//			 getApplianceVersion(txIpDual);
 //				ConnectionPage.createprivateconnections(firedrive,devices);
 //				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
 			 cleanUpLogout(); 
@@ -149,6 +163,8 @@ public class TestBase{
 			
 			
 	 }
+	 
+	 
 	 
 	 public class Reboot {
 			String [] device_names;
@@ -230,13 +246,21 @@ public class TestBase{
 	 public void setup() {
 		
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", "C:\\Program Files\\Git\\EmeraldRA\\EmeraldRA.exe");
+        capabilities.setCapability("app", "C:\\Program Files (x86)\\Git\\EmeraldRA\\EmeraldRA.exe");
         capabilities.setCapability("platformName", "Windows");
         capabilities.setCapability("deviceName", "WindowsPC");
-      try {
-    	  Thread.sleep(1000);
-    	   Windriver = new WindowsDriver<RemoteWebElement>(new URL("http://127.0.0.1:4723"),capabilities);
-    	   Windriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        
+        
+        try {
+      	  Thread.sleep(1000);
+      	   Windriver = new WindowsDriver<RemoteWebElement>(new URL("http://127.0.0.1:4723"),capabilities);
+      	   Windriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+      //Root session (windows)
+        DesiredCapabilities appCapabilities = new DesiredCapabilities();
+        appCapabilities.setCapability("app", "Root");
+        Windriver2 = new WindowsDriver(new URL("http://127.0.0.1:4723"), appCapabilities);
+        Windriver2.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+     
       }
       catch(Exception e){
     	  System.out.println("Exception has occured ");
@@ -245,6 +269,7 @@ public class TestBase{
       
       
     }
+	 
 	
 	public WebDriver getdriver() {
 		return firedrive;
@@ -269,6 +294,7 @@ public class TestBase{
 //		return null;
 //	}
 	public void RAlogin(String username, String Password) throws Exception {
+		Thread.sleep(15000);
 		setup();
 	//	this.Windriver.switchTo().window((String) this.Windriver.getWindowHandles().toArray()[0]);
 		System.out.println("current window is "+Windriver.getWindowHandles().toArray()[0]);
@@ -478,6 +504,8 @@ public void closeApp() {
 			System.out.println("Northbound API is already enabled. Doing nothing");
 		}
 	}
+	
+	
 		public void navigateToSystemSettings(WebDriver driver) throws InterruptedException {
 			driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 			LandingPage.systemTab(driver).click();
@@ -504,7 +532,9 @@ public void closeApp() {
 //				ConnectionPage.DeleteConnection(firedrive,devices);
 //				UserPage.DeleteUser(firedrive,RAusername);
 				unManageDevice(firedrive,devices);
-				cleanUpLogout();
+//				DeleteConnection();
+//				cleanUpLogout();
+				PrintRestStatistics();
 				//firedrive.close();
 		}
 		
@@ -618,6 +648,22 @@ public void closeApp() {
 		public String getTimeFromMilliSeconds(long time) {
 			return new SimpleDateFormat("mm:ss").format(new Date(time));
 			
+		}
+		
+		
+		@BeforeMethod
+		public void DeleteConnection() {     
+		      
+		   	RestAssured.useRelaxedHTTPSValidation();
+
+			 String response = given().auth().preemptive().basic(AutomationUsername, AutomationPassword).headers(BoxillaHeaders.getBoxillaHeaders())
+						.when().contentType(ContentType.JSON)
+						.delete("https://" + boxillaManager + "/bxa-api/connections/kvm/all")
+						.then().assertThat().statusCode(200)
+						.extract().response().asString();  
+						
+					
+			System.out.println("Connection Delete status"+response);
 		}
 		
 	}

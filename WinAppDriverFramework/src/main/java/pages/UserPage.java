@@ -17,6 +17,7 @@ import methods.Device;
 import methods.Devices;
 import methods.Discovery;
 import methods.SeleniumActions;
+import methods.Users;
 import tests.TestBase;
 
 public class UserPage {
@@ -26,7 +27,7 @@ public class UserPage {
 
 				
 	public static WebElement user(WebDriver driver) {
-		element=driver.findElement(By.xpath("(.//span[@class='list-group-item-value dropdown-btn'])[4]"));
+		element=driver.findElement(By.linkText("Users"));
 		return element;
 	}
 
@@ -69,19 +70,19 @@ public class UserPage {
 		element = driver.findElement(By.xpath(".//button[@class=\"btn btn-primary wizard-pf-next\"]"));
 		return element;
 	}
-	public static WebElement UserType(String usertype,WebDriver driver) {
-		if (usertype.equalsIgnoreCase("Administrator")) {
-		element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary active'])[4]"));
-			}
-		else if (usertype.equalsIgnoreCase("Power")) {
-			element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary'])[5]"));
-		}
-		else if (usertype.equalsIgnoreCase("General")) {
-			element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary'])[4]"));
-		}
-			
-		return element;
-	}
+//	public static WebElement UserType(String usertype,WebDriver driver) {
+//		if (usertype.equalsIgnoreCase("Administrator")) {
+//		element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary active'])[3]"));
+//			}
+//		else if (usertype.equalsIgnoreCase("Power")) {
+//			element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary'])[6]"));
+//		}
+//		else if (usertype.equalsIgnoreCase("General")) {
+//			element = driver.findElement(By.xpath("(.//label[@class='btn btn-primary'])[5]"));
+//		}
+//			
+//		return element;
+//	}
 	
 	public static String IncorrectPassword(WebDriver driver) {
 		element = driver.findElement(By.xpath(".//span[@id='password-help-block']"));
@@ -173,7 +174,17 @@ public class UserPage {
 			password(drive).sendKeys(pass);
 			confirmPassword(drive).sendKeys(pass);
 			NextButton(drive).click();
-			UserType(type, drive).click();
+			//UserType(type, drive).click();
+			if(type.equalsIgnoreCase("admin")) {
+				WebElement admin = drive.findElement(By.xpath(Users.getNewUserPrivilegeAdminBtn()));
+				SeleniumActions.exectuteJavaScriptClick(drive, admin);
+			}else if(type.equalsIgnoreCase("general")) {
+				WebElement general = drive.findElement(By.xpath(Users.getNewUserPrivilegeGeneralBtn()));
+				SeleniumActions.exectuteJavaScriptClick(drive, general);
+			}else if(type.equalsIgnoreCase("power")) {
+				WebElement power = drive.findElement(By.xpath(Users.getNewUserPrivilegePowerBtn()));
+				SeleniumActions.exectuteJavaScriptClick(drive, power);
+			}
 			RemoteAccess(drive).click();
 			NextButton(drive).click();
 			savebutton(drive).click();

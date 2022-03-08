@@ -40,7 +40,7 @@
 		int countconnection;
 		String gerdetails;
 	//Poc: 1) Configure BXA Settings.(creating user and managing connections is through boxilla)
-		
+		SoftAssert softAssertion = new SoftAssert();
 		
 		@Test(priority=1)
 		public void Test01_configuration() throws InterruptedException {

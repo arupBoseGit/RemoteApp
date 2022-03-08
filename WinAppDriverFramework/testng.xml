@@ -2,19 +2,21 @@
  
 <suite name="suite1" verbose="1" >
 
- <!-- <listeners>
-		 <listener class-name="org.uncommons.reportng.HTMLReporter" />
+  <listeners>
+		  <listener class-name="org.uncommons.reportng.HTMLReporter" />
 		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" /> 
-		<listener class-name="testNG.AnnotationTransformer" />
-		<listener class-name="testNG.FixRetryListener" />
-	</listeners> -->
+		<listener class-name="org.uncommons.reportng.AnnotationTransformer" />
+		<listener class-name="org.uncommons.reportng.FixRetryListener" />
+	</listeners> 
 	
 
   <test name="winAppDriverFramework"   >
   
     <classes>
-     <!-- 	<class name="tests.Firstphase"/>   --> 
-  		<class name="tests.SecondPhase"/>  
+      	    
+  		<!-- <class name="tests.SecondPhase"/>   
+  		 <class name="tests.Thirdstage"/>   -->
+  		<class name="tests.Firstphase"/> 
     </classes>
  </test>
 </suite> 
