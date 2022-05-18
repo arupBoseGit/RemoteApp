@@ -142,8 +142,7 @@ public class TestBase extends RESTStatistics {
 			 cleanUpLogin();
 			 enableNorthboundAPI(firedrive);
 			 Managedevices();
-//			 getApplianceVersion(txIp);
-//			 getApplianceVersion(txIpDual);
+
 //				ConnectionPage.createprivateconnections(firedrive,devices);
 //				userpage.createUser(firedrive,devices,RAusername,RApassword,"General");
 			 cleanUpLogout(); 
@@ -246,7 +245,7 @@ public class TestBase extends RESTStatistics {
 	 public void setup() {
 		
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("app", "C:\\Program Files (x86)\\Git\\EmeraldRA\\EmeraldRA.exe");
+        capabilities.setCapability("app", "C:\\Program Files (x86)\\BlackBox\\EmeraldRA.exe");
         capabilities.setCapability("platformName", "Windows");
         capabilities.setCapability("deviceName", "WindowsPC");
         

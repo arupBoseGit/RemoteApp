@@ -268,7 +268,7 @@ public class SecondPhase extends TestBase{
 						     Thread.sleep(5000);
 						     Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
 						}
-						
+						Thread.sleep(20000);
 						//Windriver.switchTo().window((String)Windriver.getWindowHandles().toArray()[0]);
 					    for (String DualName : DualHeadList) { 
 					    	Windriver.findElement(By.name(DualName)).click();
@@ -377,7 +377,7 @@ public class SecondPhase extends TestBase{
 			      build().perform();
 			      System.out.println(connectionName+" has been launched");
 			      }
-			      Thread.sleep(10000);
+			      Thread.sleep(30000);
 			   	
 			   	RestAssured.useRelaxedHTTPSValidation();
 				String gerdetails = RestAssured.given().auth().preemptive().basic(AutomationUsername, AutomationPassword).headers("Content-Type", "application/json", "Accept","application/json")
@@ -435,7 +435,7 @@ public class SecondPhase extends TestBase{
 			      reqparam.put("device_names", list);
 			      
 			      
-			   	RestAssured.useRelaxedHTTPSValidation();
+			   	/*RestAssured.useRelaxedHTTPSValidation();
 
 				 String response = given().auth().preemptive().basic(AutomationUsername, AutomationPassword).headers(BoxillaHeaders.getBoxillaHeaders())
 							.when().contentType(ContentType.JSON)
@@ -446,7 +446,7 @@ public class SecondPhase extends TestBase{
 							
 						
 				System.out.println("Reboot Transmitter status"+response);
-				Thread.sleep(10000);
+				Thread.sleep(50000);*/
 				connectionName= ConnectionPage.CreateConnection(firedrive, Onedevices, 1, "Private");//createprivateconnections(firedrive,Onedevices);
 				ConnectionPage.launchPrivateConnection(firedrive,connectionName,"Test_RX_Dual_Pe");
 				userpage.createUser(firedrive,Onedevices,RAusername,RApassword,"General");
@@ -1222,6 +1222,7 @@ public class SecondPhase extends TestBase{
 			@Test(priority=13)//launch 4K connection and should pop up error message
 			public void Test13_CL0005() throws Exception {
 				printTestDetails("STARTING ", "Test13_CL0005", "");
+				Onedevices.clear();
 				Onedevices = devicePool.getAllDevices("device4K.properties");
 				cleanUpLogin();
 				ConnectionPage.createprivateconnections(firedrive, Onedevices);

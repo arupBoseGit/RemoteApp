@@ -263,7 +263,7 @@ public class Thirdstage extends TestBase{
 			UserPage.DeleteUser(firedrive, RAusername);
 			cleanUpLogout();
 			softAssert.assertAll();
-				}		
+				}	
 	
 	
 	@Test// launch a shared connection with RA and TX RX
@@ -273,14 +273,13 @@ public class Thirdstage extends TestBase{
 		float ActiveconnectionFPS = 0;
 		ArrayList connectionName=null;
 		Onedevices = devicePool.getAllDevices("devicePE.properties");
-		try {
-			cleanUpLogin();
-			 ArrayList<String> list = new ArrayList<String>();
-		      list.add("Test_RX_Dual_Pe");
-		      
-		      JSONObject reqparam = new JSONObject();
-		      reqparam.put("device_names", list);
-		      
+		cleanUpLogin();
+		 ArrayList<String> list = new ArrayList<String>();
+	     list.add("Test_RX_Dual_Pe");
+	     JSONObject reqparam = new JSONObject();
+	     reqparam.put("device_names", list);
+	     
+		try { 
 		      
 		   	RestAssured.useRelaxedHTTPSValidation();
 
@@ -312,6 +311,9 @@ public class Thirdstage extends TestBase{
 				ActiveconnectionFPS = js.get("message.active_connections[0].fps");
 				System.out.println("TX-RX Active connection FPS is : "+ActiveconnectionFPS);
 			//
+				cleanUpLogin();
+				ConnectionPage.BreakboxillaConnection(firedrive);
+				cleanUpLogout();
 			
 			int count=0;
 			int connectionNumber=1;
@@ -367,22 +369,33 @@ public class Thirdstage extends TestBase{
 			softAssert.assertEquals(ActiveconnectionFPS, ActiveRAconnectionFPS,"Mismatch in FPS values in TX-RX and RA-Tx connections");
 			closeApp();
 			cleanUpLogin();
-			ConnectionPage.BreakboxillaConnection(firedrive);
 			UserPage.DeleteUser(firedrive, RAusername);
 			cleanUpLogout();
 			softAssert.assertAll();
+			RestAssured.useRelaxedHTTPSValidation();
+
+			 given().auth().preemptive().basic(AutomationUsername, AutomationPassword).headers(BoxillaHeaders.getBoxillaHeaders())
+						.when().contentType(ContentType.JSON)
+						.body(reqparam.toJSONString())
+						.post("https://" + boxillaManager + "/bxa-api/devices/kvm/reboot")
+						.then().assertThat().statusCode(200);
 				
 		}
 		catch(Exception e){
 		e.printStackTrace();
 		closeApp();
 		cleanUpLogin();
-		ConnectionPage.BreakboxillaConnection(firedrive);		
 		UserPage.DeleteUser(firedrive, RAusername);
 		cleanUpLogout();
+		RestAssured.useRelaxedHTTPSValidation();
+
+		 given().auth().preemptive().basic(AutomationUsername, AutomationPassword).headers(BoxillaHeaders.getBoxillaHeaders())
+					.when().contentType(ContentType.JSON)
+					.body(reqparam.toJSONString())
+					.post("https://" + boxillaManager + "/bxa-api/devices/kvm/reboot")
+					.then().assertThat().statusCode(200);
 		}
 		
-
 	}
 	
 	@Test //set smart sizing and launch VM connection

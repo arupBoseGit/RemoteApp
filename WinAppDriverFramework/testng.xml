@@ -13,10 +13,12 @@
   <test name="winAppDriverFramework"   >
   
     <classes>
-      	    
-  		<!-- <class name="tests.SecondPhase"/>   
-  		 <class name="tests.Thirdstage"/>   -->
-  		<class name="tests.Firstphase"/> 
+    <class name="tests.SecondPhase"/>
+     <class name="tests.Thirdstage"/>
+     <class name="tests.Firstphase"/> 
+  		    
+  		  
+  		 
     </classes>
  </test>
 </suite> 
